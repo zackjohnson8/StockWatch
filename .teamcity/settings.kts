@@ -41,8 +41,7 @@ object Build : BuildType({
     steps {
         python {
             environment = venv {
-                name = "venv"
-                requirements = "requirements.txt"
+                requirementsFile = "requirements.py"
             }
             command = file {
                 filename = "main.py"
@@ -50,8 +49,7 @@ object Build : BuildType({
         }
         python {
             environment = venv {
-                name = "venv"
-                requirements = "requirements.txt"
+                requirementsFile = "requirements.py"
             }
             name = "Tests"
             command = pytest {
