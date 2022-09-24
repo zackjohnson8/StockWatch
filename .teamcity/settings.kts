@@ -45,7 +45,7 @@ object Build : BuildType({
                 requirements = "requirements.txt"
             }
             command = file {
-                filename = "__init__.py"
+                filename = "main.py"
             }
         }
         python {
