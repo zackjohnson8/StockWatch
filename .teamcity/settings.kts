@@ -41,7 +41,12 @@ object Build : BuildType({
     steps {
         python {
             command = file {
-                filename = "main.py"
+                filename = "__init__.py"
+            }
+        }
+        python {
+            name = "Tests"
+            command = pytest {
             }
         }
     }
