@@ -49,7 +49,7 @@ object Build : BuildType({
         }
         python {
             environment = venv {
-                requirementsFile = "requirements.py"
+                requirementsFile = "../requirements.py"
             }
             name = "Tests"
             command = pytest {
