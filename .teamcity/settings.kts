@@ -49,7 +49,7 @@ object Build : BuildType({
             }
             command = file {
                 filename = "main.py"
-                scriptArguments = "-a %access_token -r %refresh_token"
+                scriptArguments = "-a %access_token% -r %refresh_token%"
             }
         }
         python {
@@ -58,7 +58,6 @@ object Build : BuildType({
             }
             name = "Tests"
             command = pytest {
-                scriptArguments = "-a %access_token -r %refresh_token"
             }
         }
     }
