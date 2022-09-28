@@ -33,6 +33,10 @@ project {
 
 object Build : BuildType({
     name = "Build"
+    params{
+        password("access_token", "credentialsJSON:1c3c98ca-392a-40ee-87d9-a118b4fa071a")
+        password("refresh_token", "credentialsJSON:f1562ed9-33d4-4c7a-9427-ddcc9c23551d")
+    }
 
     vcs {
         root(DslContext.settingsRoot)
@@ -42,6 +46,7 @@ object Build : BuildType({
         python {
             environment = venv {
                 requirementsFile = "requirements.txt"
+                pipArgs = "-a %access_token -r %refresh_token"
             }
             command = file {
                 filename = "main.py"
@@ -50,6 +55,7 @@ object Build : BuildType({
         python {
             environment = venv {
                 requirementsFile = "requirements.txt"
+                pipArgs = "-a %access_token -r %refresh_token"
             }
             name = "Tests"
             command = pytest {
