@@ -44,9 +44,6 @@ object Build : BuildType({
 
     steps {
         python {
-            pythonVersion = python3 {
-                arguments = "-a %access_token -r %refresh_token"
-            }
             environment = venv {
                 requirementsFile = "requirements.txt"
             }
@@ -56,9 +53,6 @@ object Build : BuildType({
             }
         }
         python {
-            pythonVersion = python3 {
-                arguments = "-a %access_token -r %refresh_token"
-            }
             environment = venv {
                 requirementsFile = "requirements.txt"
             }
