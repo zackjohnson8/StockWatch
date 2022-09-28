@@ -46,19 +46,19 @@ object Build : BuildType({
         python {
             environment = venv {
                 requirementsFile = "requirements.txt"
-                pipArgs = "-a %access_token -r %refresh_token"
             }
             command = file {
                 filename = "main.py"
+                scriptArguments = "-a %access_token -r %refresh_token"
             }
         }
         python {
             environment = venv {
                 requirementsFile = "requirements.txt"
-                pipArgs = "-a %access_token -r %refresh_token"
             }
             name = "Tests"
             command = pytest {
+                scriptArguments = "-a %access_token -r %refresh_token"
             }
         }
     }
