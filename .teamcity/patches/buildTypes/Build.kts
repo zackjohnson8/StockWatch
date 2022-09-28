@@ -13,5 +13,8 @@ changeBuildType(RelativeId("Build")) {
         add {
             password("system.refresh_token", "credentialsJSON:f1562ed9-33d4-4c7a-9427-ddcc9c23551d", label = "Refresh token", display = ParameterDisplay.HIDDEN)
         }
+        add {
+            password("system.access_token", "credentialsJSON:1c3c98ca-392a-40ee-87d9-a118b4fa071a", label = "Access token", display = ParameterDisplay.HIDDEN)
+        }
     }
 }
