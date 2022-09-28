@@ -44,18 +44,22 @@ object Build : BuildType({
 
     steps {
         python {
+            pythonVersion = python3 {
+                arguments = "-a %access_token -r %refresh_token"
+            }
             environment = venv {
                 requirementsFile = "requirements.txt"
-                pipArgs = "-a %access_token -r %refresh_token"
             }
             command = file {
                 filename = "main.py"
             }
         }
         python {
+            pythonVersion = python3 {
+                arguments = "-a %access_token -r %refresh_token"
+            }
             environment = venv {
                 requirementsFile = "requirements.txt"
-                pipArgs = "-a %access_token -r %refresh_token"
             }
             name = "Tests"
             command = pytest {
