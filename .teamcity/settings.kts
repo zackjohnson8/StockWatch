@@ -49,7 +49,7 @@ object Build : BuildType({
                 requirementsFile = "requirements.txt"
             }
             command = file {
-                filename = "main.py"
+                filename = "src/main.py"
                 scriptArguments = "-r %refresh_token% -c %client_id% -u %redirect_url%"
             }
         }
