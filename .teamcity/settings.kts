@@ -49,7 +49,7 @@ object Build : BuildType({
                 requirementsFile = "requirements.txt"
             }
             command = file {
-                filename = "stock_watch_app/main.py"
+                filename = "main.py"
                 scriptArguments = "-r %refresh_token% -c %client_id% -u %redirect_url%"
             }
         }
