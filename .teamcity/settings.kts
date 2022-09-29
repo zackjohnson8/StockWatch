@@ -34,8 +34,9 @@ project {
 object Build : BuildType({
     name = "Build"
     params{
-        password("access_token", "credentialsJSON:1c3c98ca-392a-40ee-87d9-a118b4fa071a")
         password("refresh_token", "credentialsJSON:f1562ed9-33d4-4c7a-9427-ddcc9c23551d")
+        password("client_id", "credentialsJSON:6a559562-d646-49b6-beef-a8ba26f95623")
+        password("redirect_url", "credentialsJSON:80cf627a-4fc5-45b5-8d32-c4e4def55f0d")
     }
 
     vcs {
@@ -49,7 +50,7 @@ object Build : BuildType({
             }
             command = file {
                 filename = "main.py"
-                scriptArguments = "-a %access_token% -r %refresh_token%"
+                scriptArguments = "-r %refresh_token% -c %client_id% -u %redirect_url%"
             }
         }
         python {
