@@ -1,7 +1,6 @@
 import requests
-from stock_watch_app.src.models.api_config import APIConfig
-
 import stock_watch_app.src.extends.logger as logging
+from stock_watch_app.src.models.api_config import APIConfig
 
 logger = logging.get_logger(__name__)
 
