@@ -22,10 +22,10 @@ def _setup_logging(config_path, default_level=DEFAULT_LEVEL):
 
 # Create logs folder
 working_directory = os.path.dirname(os.path.realpath(__file__))
-if not os.path.exists(f'{working_directory}/../logs'):
+if not os.path.exists(f'{working_directory}/../../../logs'):
     os.makedirs('logs')
 
-_setup_logging(config_path=f'{working_directory}/../configs/logging_configs.yml')
+_setup_logging(config_path=f'{working_directory}/../../../configs/logging_configs.yml')
 
 
 def get_logger(name):
