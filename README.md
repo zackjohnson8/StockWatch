@@ -14,9 +14,9 @@ redirect URI.</br>
 TODO: Add usage instructions
 
 ## Roadmap
--[x] Add TDAmeritrade API
--[ ] Add Docker PostgreSQL container
--[ ] Add logic to store data in PostgreSQL database
+- [x] Add TDAmeritrade API
+- [ ] Add Docker PostgreSQL container
+- [ ] Add logic to store data in PostgreSQL database
 
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
