@@ -1,6 +1,6 @@
 import pytest
 
-import stock_watch_app.src.helpers.math as math
+import src.helpers.math as math
 
 
 def test_sum_positive_numbers():

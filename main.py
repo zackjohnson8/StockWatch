@@ -1,12 +1,15 @@
 import sys
 
-from stock_watch_app.src.handlers.api_handler import ApiHandler
-from stock_watch_app.src.handlers.arg_handler import ArgumentHandler
-from stock_watch_app.src.models.api_config import APIConfig
-from stock_watch_app.tdameritrade.apis import movers_api
-from stock_watch_app.tdameritrade.models.types.direction_type import DirectionType
-from stock_watch_app.tdameritrade.models.types.stock_index_type import StockIndexType
-from stock_watch_app.tdameritrade.models.types.value_change_type import ValueChangeType
+from src.extends import logger
+from src.handlers.api_handler import ApiHandler
+from src.handlers.arg_handler import ArgumentHandler
+from src.models.api_config import APIConfig
+from tdameritrade.apis import movers_api
+from tdameritrade.models.types.direction_type import DirectionType
+from tdameritrade.models.types.stock_index_type import StockIndexType
+from tdameritrade.models.types.value_change_type import ValueChangeType
+
+logging = logger.get_logger(__name__)
 
 
 def main(argv):
@@ -20,4 +23,5 @@ def main(argv):
 
 
 if __name__ == '__main__':
+    logging.info('Starting main.py')
     main(sys.argv[1:])
