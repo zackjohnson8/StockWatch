@@ -1,15 +1,19 @@
+import os
 import sys
 
 from src.extends import logger
 from src.handlers.api_handler import ApiHandler
 from src.handlers.arg_handler import ArgumentHandler
 from src.models.api_config import APIConfig
+from src.services.database_service import DatabaseService
 from tdameritrade.apis import movers_api
 from tdameritrade.models.types.direction_type import DirectionType
 from tdameritrade.models.types.stock_index_type import StockIndexType
 from tdameritrade.models.types.value_change_type import ValueChangeType
 
 logging = logger.get_logger(__name__)
+
+working_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 def main(argv):
@@ -20,6 +24,12 @@ def main(argv):
 
     movers = movers_api.get_movers(api_handler, StockIndexType.NASDAQ, DirectionType.UP, ValueChangeType.PERCENT)
     print(movers)
+
+    database_service = DatabaseService(
+        docker_compose_file='docker/database/docker_compose/docker-compose-database.yml',
+        working_dir=working_dir
+    )
+    database_service.start_database()
 
 
 if __name__ == '__main__':
