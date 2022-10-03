@@ -11,6 +11,6 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_DB=stockdata
     volumes:
-      - ../dockerfile/database_volumes/database/data:/var/lib/postgresql/data
+      - ./database_volumes/database/data:/var/lib/postgresql/data
     ports:
       - '5434:5434'
