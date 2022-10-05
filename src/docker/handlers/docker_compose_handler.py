@@ -1,9 +1,9 @@
-from src.helpers import command_helper
+from src.stock_watch_app.helpers import command_helper
 
 
 class DockerComposeHandler:
-    def __init__(self):
-        pass
+    def __init__(self, username: str, password: str):
+        self.login(username=username, password=password)
 
     def up(self, parent_commands: list = None, options: list = None, services: list = None):
         if parent_commands is None:
@@ -14,6 +14,11 @@ class DockerComposeHandler:
             services = []
         command_list = ['docker-compose', *parent_commands, 'up', *options, *services]
         command_helper.run_commands(command_list)
+
+
+    def login(self, username: str, password: str):
+        command_helper.run_commands(commands=['docker', 'login', '-u', username, '-p', password, 'docker.io'])
+
 
     def down(self, parent_commands: list = None, options: list = None):
         if parent_commands is None:

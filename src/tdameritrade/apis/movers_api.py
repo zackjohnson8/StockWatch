@@ -1,7 +1,7 @@
-from src.handlers.api_handler import ApiHandler
-from tdameritrade.models.types.direction_type import DirectionType
-from tdameritrade.models.types.stock_index_type import StockIndexType
-from tdameritrade.models.types.value_change_type import ValueChangeType
+from src.tdameritrade.handlers.api_handler import ApiHandler
+from src.tdameritrade.models.types.direction_type import DirectionType
+from src.tdameritrade.models.types.stock_index_type import StockIndexType
+from src.tdameritrade.models.types.value_change_type import ValueChangeType
 
 
 def get_movers(

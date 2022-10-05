@@ -1,6 +1,6 @@
 import requests
-import src.extends.logger as logging
-from src.models.api_config import APIConfig
+import src.stock_watch_app.utils.logger as logging
+from src.tdameritrade.models.api_config import APIConfig
 
 logger = logging.get_logger(__name__)
 

@@ -1,6 +1,6 @@
 import os
 
-from src.extends import logger
+from src.stock_watch_app.utils import logger
 
 logging = logger.get_logger(__name__)
 
