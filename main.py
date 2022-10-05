@@ -1,6 +1,7 @@
 import os
 import sys
 
+from src.database.apis.database_api import DatabaseAPI
 from src.stock_watch_app.utils import logger
 from src.tdameritrade.handlers.api_handler import ApiHandler
 from src.stock_watch_app.handlers.arg_handler import ArgumentHandler
@@ -32,6 +33,9 @@ def main(argv):
     )
     database_service.stop_database()
     database_service.start_database()
+
+    database_api = DatabaseAPI()
+    database_api.insert_movers(movers)
 
 
 if __name__ == '__main__':
