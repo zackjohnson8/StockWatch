@@ -4,6 +4,7 @@ import sys
 from src.extends import logger
 from src.handlers.api_handler import ApiHandler
 from src.handlers.arg_handler import ArgumentHandler
+from src.helpers import file_folder_helper
 from src.models.api_config import APIConfig
 from src.services.database_service import DatabaseService
 from tdameritrade.apis import movers_api
@@ -23,13 +24,14 @@ def main(argv):
     api_handler = ApiHandler(api_configs)
 
     movers = movers_api.get_movers(api_handler, StockIndexType.NASDAQ, DirectionType.UP, ValueChangeType.PERCENT)
-    print(movers)
 
     database_service = DatabaseService(
         docker_compose_file='docker/database/docker_compose/docker-compose-database.yml',
         working_dir=working_dir
     )
     database_service.start_database()
+
+    
 
 
 if __name__ == '__main__':

@@ -15,6 +15,14 @@ class DockerComposeHandler:
         command_list = ['docker-compose', *parent_commands, 'up', *options, *services]
         command_helper.run_commands(command_list)
 
+    def down(self, parent_commands: list = None, options: list = None):
+        if parent_commands is None:
+            parent_commands = []
+        if options is None:
+            options = []
+        command_list = ['docker-compose', *parent_commands, 'down', *options]
+        command_helper.run_commands(command_list)
+
     def build(self, parent_commands: list = None, options: list = None, services: list = None):
         if parent_commands is None:
             parent_commands = []

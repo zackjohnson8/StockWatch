@@ -5,9 +5,9 @@ from src.extends import logger
 logging = logger.get_logger(__name__)
 
 
-def create_directory(folder_path, exist_ok=True):
+def create_directory(folder_path, exist_ok=True, mode=0o777):
     if not os.path.exists(folder_path):
-        os.makedirs(folder_path, exist_ok=exist_ok)
+        os.makedirs(folder_path, exist_ok=exist_ok, mode=mode)
         # wait for the folder to be created
         while not os.path.exists(folder_path):
             pass
