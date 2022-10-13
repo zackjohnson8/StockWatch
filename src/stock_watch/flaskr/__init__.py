@@ -1,0 +1,40 @@
+import os
+
+from flask import Flask
+
+host = '0.0.0.0'
+port = 5000
+app = None
+
+
+def create_app(test_config=None):
+    global app
+    # create and configure the app
+    app = Flask(__name__, instance_relative_config=True)
+
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
+
+    # ensure the instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
+    from . import db
+    db.init_app(app)
+
+    from . import auth, mover
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(mover.bp)
+
+
+def run():
+    global app
+    if not app:
+        create_app()
+    app.run(host=host, port=port, debug=True)
