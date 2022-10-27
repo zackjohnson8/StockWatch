@@ -1,17 +1,15 @@
 <a name="readme-top"></a>
 ## About The Project
 Using the TDAmeritrade API, this program affords the capability to retrieve data from the stock market. It stores 
-data in a PostgreSQL database. As of now, this program does not contain its own GUI to display the information, 
-it is meant to be used with a separate front-end.
+data in a dockerized PostgreSQL. For communication with the front-end, the Flask microframework is used.  As of now, 
+this program does not contain its own GUI to display the information, it is meant to be used with a separate front-end.
 
 ## Getting Started
 To run this program, you will need to have a TDAmeritrade developer account with a refresh token, client ID, and 
 redirect URI.</br>
 
-`python3 main.py --help -r [Refresh-Token] -c [Client-ID] -u [Redirect-URI]`
-
-## Usage
-TODO: Add usage instructions
+`python3 main.py --help -r [Refresh-Token] -c [Client-ID] -u [Redirect-URI] --docker-user [Docker-Username] 
+--docker-password [Docker-Password]`
 
 ## Roadmap
 - [x] Add TDAmeritrade API
