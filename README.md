@@ -16,7 +16,7 @@ redirect URI.</br>
 - [x] Add Docker PostgreSQL container
 - [x] Add logic to store data in PostgreSQL database
 - [x] Add a flask service
-- [] Add the logic for communicating with outside sources
+- [ ] Add the logic for communicating with outside sources
 
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
