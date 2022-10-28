@@ -24,4 +24,4 @@ def _setup_logging(config_path, default_level=DEFAULT_LEVEL):
         logging.basicConfig(level=default_level)
 
 
-_setup_logging(config_path='src/stock_watch/configs/logging_configs.yml')
+_setup_logging(config_path='src/stock_watch/configs/logging_config.yml')

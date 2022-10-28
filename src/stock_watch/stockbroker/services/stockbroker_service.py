@@ -20,7 +20,7 @@ class StockbrokerService:
         self.oauth = OAuth(stockbroker_credential)
 
     def run(self):
-        access_token = self.oauth.get_access_token()
+        access_token = self.oauth.get_token()
 
         # Every 0.7 seconds request the api handler
         while True:
