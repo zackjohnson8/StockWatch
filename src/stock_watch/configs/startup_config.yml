@@ -1,5 +1,5 @@
 stockbroker:
-  access_token: <ACCESS-TOKEN>
+  refresh_token: <REFRESH-TOKEN>
   client_id: <CLIENT-ID>
   redirect_uri: <REDIRECT-URI>
 dockerhub:
