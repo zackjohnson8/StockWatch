@@ -1,7 +1,0 @@
-stockbroker:
-  refresh_token: <your refresh token>
-  client_id: <your client id>
-  redirect_uri: <your redirect uri>
-dockerhub:
-  docker_username: <your dockerhub username>
-  docker_password: <your dockerhub password>
