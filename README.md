@@ -6,8 +6,7 @@ this program does not contain its own GUI to display the information, it is mean
 
 ## Getting Started
 To run this program, you will need to have a TDAmeritrade developer account with a refresh token, client ID, and 
-redirect URI. Use the <a href='https://developer.tdameritrade.com/content/getting-started'>TDAmeritrade Getting Started
-link</a> to get this information</br>
+redirect URI. Use the <a href='https://developer.tdameritrade.com/content/getting-started'>TDAmeritrade Getting Started</a> to get this information</br>
 
 Update the startup_config.yml file with your TDAmeritrade information. The program will not run without this 
 information.
