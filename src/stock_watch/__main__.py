@@ -1,32 +1,27 @@
-import sys
-
+from src.stock_watch import helpers
 from src.stock_watch.app import StockWatch
-from src.stock_watch.arguments import ArgumentParser
-
+from src.stock_watch.stockbroker.docker.models import docker_credential_model
+from src.stock_watch.stockbroker.models import stockbroker_credential_model
 
 import src.stock_watch.logger as logger
-
-from src.stock_watch.stockbroker.docker.models import docker_credential_model
-
-from src.stock_watch.stockbroker.models import stockbroker_credential_model
 
 logging = logger.get(__name__)
 
 
-def main(argv):
-    arg_handler = ArgumentParser()
-    args = arg_handler.parse_args(argv)
+def main():
+
+    # Use helpers to retrieve credentials from the startup_configs
+    startup_config = helpers.read_yaml_file('./src/stock_watch/configs/startup_config.yml')
 
     docker_credentials = docker_credential_model.DockerCredentialModel(
-        username=args.docker_user,
-        password=args.docker_password
+        username=helpers.check_value(startup_config['dockerhub']['username']),
+        password=helpers.check_value(startup_config['dockerhub']['password'])
     )
 
     stockbroker_credentials = stockbroker_credential_model.StockbrokerCredentialModel(
-        refresh_token=args.access,
-        client_id=args.client,
-        redirect_url=args.url,
-        access_token=args.refresh
+        client_id=helpers.check_value(startup_config['stockbroker']['client_id']),
+        redirect_url=helpers.check_value(startup_config['stockbroker']['redirect_uri']),
+        refresh_token=helpers.check_value(startup_config['stockbroker']['refresh_token'])
     )
 
     stock_watch = StockWatch()
@@ -38,4 +33,4 @@ def main(argv):
 
 if __name__ == '__main__':
     logging.info('Starting main.py')
-    main(sys.argv[1:])
+    main()

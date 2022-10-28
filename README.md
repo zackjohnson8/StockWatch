@@ -6,10 +6,11 @@ this program does not contain its own GUI to display the information, it is mean
 
 ## Getting Started
 To run this program, you will need to have a TDAmeritrade developer account with a refresh token, client ID, and 
-redirect URI.</br>
+redirect URI. Use the <a href='https://developer.tdameritrade.com/content/getting-started'>TDAmeritrade Getting Started
+link</a> to get this information</br>
 
-`python3 main.py --help -r [Refresh-Token] -c [Client-ID] -u [Redirect-URI] --docker-user [Docker-Username] 
---docker-password [Docker-Password]`
+Update the startup_config.yml file with your TDAmeritrade information. The program will not run without this 
+information.
 
 ## Roadmap
 - [x] Add TDAmeritrade API
@@ -19,9 +20,11 @@ redirect URI.</br>
 - [ ] Add the logic for communicating with outside sources
 
 ## Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any 
+contributions you make are greatly appreciated.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also 
+simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
 
     Fork the Project
     Create your Feature Branch (git checkout -b [name_of_your_new_branch])
