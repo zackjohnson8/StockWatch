@@ -1,7 +1,12 @@
 import time
 
+from src.stock_watch.stockbroker.database.database import Database
 from src.stock_watch.stockbroker.models.stockbroker_credential_model import StockbrokerCredentialModel
+from src.stock_watch.stockbroker.models.types.direction_type import DirectionType
+from src.stock_watch.stockbroker.models.types.stock_index_type import StockIndexType
+from src.stock_watch.stockbroker.models.types.value_change_type import ValueChangeType
 from src.stock_watch.stockbroker.oauth import OAuth
+import src.stock_watch.stockbroker.api.movers as movers
 
 import src.stock_watch.logger as logger
 
@@ -18,11 +23,20 @@ class StockbrokerService:
         :param stockbroker_credential: The credentials for accessing the stockbroker api.
         """
         self.oauth = OAuth(stockbroker_credential)
+        self.db = Database()
 
     def run(self):
-        access_token = self.oauth.get_token()
-
-        # Every 0.7 seconds request the api handler
+        direction_change = True
         while True:
-            logging.info("api_service: waiting on implementation")
-            time.sleep(.7)
+
+
+            if direction_change:
+                up_movers = movers.get(oauth=self.oauth, index=StockIndexType.NASDAQ, direction=DirectionType.UP,
+                                        change=ValueChangeType.PERCENT)
+                pass
+            else:
+                down_movers = movers.get(oauth=self.oauth, index=StockIndexType.NASDAQ, direction=DirectionType.DOWN,
+                                        change=ValueChangeType.PERCENT)
+                pass
+            direction_change != direction_change
+            time.sleep(.6)

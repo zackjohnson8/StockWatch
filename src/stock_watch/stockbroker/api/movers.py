@@ -1,17 +1,29 @@
-from src.stock_watch.stockbroker.handlers.api_handler import ApiHandler
+import requests
+
 from src.stock_watch.stockbroker.models.types.direction_type import DirectionType
 from src.stock_watch.stockbroker.models.types.stock_index_type import StockIndexType
 from src.stock_watch.stockbroker.models.types.value_change_type import ValueChangeType
+from src.stock_watch.stockbroker.oauth import OAuth
+
+import src.stock_watch.logger as logger
+
+logging = logger.get(__name__)
 
 
 def get(
-        api_handler: ApiHandler,
+        oauth: OAuth,
         index: StockIndexType,
         direction: DirectionType,
-        change: ValueChangeType
+        change: ValueChangeType,
+        **kwargs
 ) -> dict:
-    response = api_handler.get(
+    response = requests.get(
         url=f'https://api.tdameritrade.com/v1/marketdata/{index.value}/movers',
-        params={'direction': direction.value, 'change': change.value}
+        params={'direction': direction.value, 'change': change.value},
+        headers={'Authorization': f'Bearer {oauth.get_token()}'},
+        **kwargs
     )
-    return response
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return logger.error(f'Error: {response.status_code} {response.reason}')

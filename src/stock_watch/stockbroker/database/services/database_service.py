@@ -1,3 +1,5 @@
+import psycopg2
+
 from src.stock_watch.stockbroker.docker.models import docker_credential_model
 from src.stock_watch.stockbroker.docker.models import docker_compose_command_model
 from src.stock_watch.stockbroker.docker.models.types import docker_compose_command_type
@@ -11,6 +13,7 @@ class DatabaseService:
             interacting with the docker service.
         """
         self.docker_service = docker_service.DockerService(docker_credentials=docker_credentials)
+        self.db = None
 
     def run(self):
         docker_directory = f'src/stock_watch/stockbroker/docker/configs/docker_compose/docker-compose-database.yml'
@@ -22,3 +25,4 @@ class DatabaseService:
             parent_input_options={'-f': docker_directory},
         )
         self.docker_service.execute(docker_compose_command=docker_compose_command)
+
