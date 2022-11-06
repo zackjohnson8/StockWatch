@@ -18,56 +18,28 @@ def run_commands(commands: list, wait: bool = True) -> str:
         return stdout
 
 
-def create_docker_command(docker_command: CommandModel) -> list[str]:
-    """
-    Create the docker command
-    :param docker_command:
-    """
-    command = ['docker']
-
-    if docker_command.parent_options:
-        command = [*command, *docker_command.parent_options]
-
-    if docker_command.parent_input_options:
-        for key, value in docker_command.parent_input_options.items():
-            if value:
-                command = [*command, key, value]
-
-    command = [*command, docker_command.child_command.value]
-
-    if docker_command.child_command_options:
-        command = [*command, *docker_command.child_command_options]
-
-    if docker_command.child_input_command_options:
-        for key, value in docker_command.child_input_command_options.items():
-            if value:
-                command = [*command, key, value]
-
-    return command
-
-
-def create_docker_compose_command(docker_compose_command: CommandModel) -> list[str]:
+def create_command(commands: CommandModel) -> list[str]:
     """
     Create the docker compose command
-    :param docker_compose_command:
+    :param commands:
     """
-    command = ['docker-compose']
+    command = [commands.cli_type]
 
-    if docker_compose_command.parent_options:
-        command = [*command, *docker_compose_command.parent_options]
+    if commands.parent_options:
+        command = [*command, *commands.parent_options]
 
-    if docker_compose_command.parent_input_options:
-        for key, value in docker_compose_command.parent_input_options.items():
+    if commands.parent_input_options:
+        for key, value in commands.parent_input_options.items():
             if value:
                 command = [*command, key, value]
 
-    command = [*command, docker_compose_command.child_command.value]
+    command = [*command, commands.child_command.value]
 
-    if docker_compose_command.child_command_options:
-        command = [*command, *docker_compose_command.child_command_options]
+    if commands.child_command_options:
+        command = [*command, *commands.child_command_options]
 
-    if docker_compose_command.child_input_command_options:
-        for key, value in docker_compose_command.child_input_command_options.items():
+    if commands.child_input_command_options:
+        for key, value in commands.child_input_command_options.items():
             if value:
                 command = [*command, key, value]
 

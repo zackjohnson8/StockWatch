@@ -27,6 +27,10 @@ class CommandModel:
             '--file': None, '--profile': None, '--project-directory': './docker_directory/project_directory',
             '--project-name': None}
         """
+        if type(child_command).__name__ is 'DockerComposeCommandType':
+            self.cli_type = 'docker-compose'
+        else:
+            self.cli_type = 'docker'
         self.child_command = child_command
         self.child_command_options = child_command_options
         self.child_input_command_options = child_input_command_options

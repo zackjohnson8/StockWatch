@@ -26,4 +26,4 @@ def get(
     if response.status_code == 200:
         return response.json()
     else:
-        return logger.error(f'Error: {response.status_code} {response.reason}')
+        return logging.error(f'Error: {response.status_code} {response.reason}')

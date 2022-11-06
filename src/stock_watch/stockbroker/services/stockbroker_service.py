@@ -26,8 +26,8 @@ class StockbrokerService:
                  database_credentials: DatabaseCredentialModel
                  ):
         """
-        :param stockbroker_credential: The credentials for accessing the stockbroker api.
-        :param database_credential: The credentials for accessing the database service.
+        :param stockbroker_credentials: The credentials for accessing the stockbroker api.
+        :param database_credentials: The credentials for accessing the database service.
         """
         self.oauth = OAuth(stockbroker_credentials)
         self.db = Database(database_credentials=database_credentials)

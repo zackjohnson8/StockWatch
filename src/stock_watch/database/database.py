@@ -8,6 +8,8 @@ logging = logger.get(__name__)
 class Database:
     def __init__(self, database_credentials: DatabaseCredentialModel):
         # These lines of code are trying to connect to a database that does not exist yet.
+        self.connection = None
+        self.cursor = None
         self.db_credentials = database_credentials
         try:
             self.connect()
