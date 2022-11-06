@@ -1,14 +1,30 @@
 import psycopg2
+import src.stock_watch.logger as logger
+from src.stock_watch.database.models.database_credential_model import DatabaseCredentialModel
+
+logging = logger.get(__name__)
 
 
 class Database:
-    def __init__(self):
-        self.connection = psycopg2.connect(
-            "dbname='stockdata' user='stockdata' host='localhost' password='mysecretpassword'")
-        self.cursor = self.connection.cursor()
+    def __init__(self, database_credentials: DatabaseCredentialModel):
+        # These lines of code are trying to connect to a database that does not exist yet.
+        self.db_credentials = database_credentials
+        try:
+            self.connect()
+        except psycopg2.OperationalError as e:
+            logging.error(f"Unable to connect to database: {e}")
+            raise e
 
     def __del__(self):
         self.connection.close()
+
+    def connect(self):
+        self.connection = psycopg2.connect(
+            f"dbname={self.db_credentials.database_name} "
+            f"user={self.db_credentials.user} "
+            f"host={self.db_credentials.host} "
+            f"password={self.db_credentials.password}")
+        self.cursor = self.connection.cursor()
 
     def create_table(self, table_name, columns):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS " + table_name + " (" + columns + ")")

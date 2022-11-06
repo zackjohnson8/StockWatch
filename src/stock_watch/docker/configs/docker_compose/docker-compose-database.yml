@@ -12,7 +12,7 @@ services:
       - POSTGRES_USER=stockdata
       - POSTGRES_DB=stockdata
     volumes:
-      - ./../../../database_volumes/database/data:/var/lib/postgresql/data
+      - ./../../database_volumes/database/data:/var/lib/postgresql/data
     ports:
       - '0.0.0.0:5432:5432'
 

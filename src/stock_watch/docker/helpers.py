@@ -1,7 +1,6 @@
 import subprocess
 import src.stock_watch.logger as logger
-from src.stock_watch.stockbroker.docker.models.docker_command_model import DockerCommandModel
-from src.stock_watch.stockbroker.docker.models.docker_compose_command_model import DockerComposeCommandModel
+from src.stock_watch.docker.models.command_model import CommandModel
 
 logging = logger.get(__name__)
 
@@ -19,7 +18,7 @@ def run_commands(commands: list, wait: bool = True) -> str:
         return stdout
 
 
-def create_docker_command(docker_command: DockerCommandModel) -> list[str]:
+def create_docker_command(docker_command: CommandModel) -> list[str]:
     """
     Create the docker command
     :param docker_command:
@@ -47,7 +46,7 @@ def create_docker_command(docker_command: DockerCommandModel) -> list[str]:
     return command
 
 
-def create_docker_compose_command(docker_compose_command: DockerComposeCommandModel) -> list[str]:
+def create_docker_compose_command(docker_compose_command: CommandModel) -> list[str]:
     """
     Create the docker compose command
     :param docker_compose_command:

@@ -1,57 +1,66 @@
+import asyncio
 import multiprocessing
 
-from src.stock_watch import flaskr
-from src.stock_watch.stockbroker.app import StockBroker
-from src.stock_watch.stockbroker.docker.models import docker_credential_model
-from src.stock_watch.stockbroker.models import stockbroker_credential_model
+from src.stock_watch import flaskr, helpers
+from src.stock_watch.docker.app import Docker
+from src.stock_watch.docker.models.command_model import CommandModel
+from src.stock_watch.docker.models.docker_credential_model import DockerCredentialModel
+from src.stock_watch.docker.models.types.docker_compose_command_type import DockerComposeCommandType
+from src.stock_watch.database.models.database_credential_model import DatabaseCredentialModel
+from src.stock_watch.stockbroker.models.stockbroker_credential_model import StockbrokerCredentialModel
+from src.stock_watch.stockbroker.services.stockbroker_service import StockbrokerService
 
 
 class StockWatch:
 
     def __init__(self):
-        self.db_service = None
+        self.stockbroker_service = None
+        self.stockbroker_credentials = None
+        self.database_credentials = None
+        self.docker_credentials = None
         self.stockbroker = None
 
-    def run(self,
-            docker_credential: docker_credential_model.DockerCredentialModel,
-            stockbroker_credential: stockbroker_credential_model.StockbrokerCredentialModel,
-            ):
-        """
-        This will start the stock watch application.
-        :param docker_credential: Credentials for interacting with the docker service.
-        :param stockbroker_credential: Credentials for interacting with the stockbroker service.
-        :return:
-        """
-        self.stockbroker = StockBroker(
-            stockbroker_credential=stockbroker_credential,
-            docker_credential=docker_credential
+    def run(self):
+        # Use helpers to retrieve credentials from the startup_configs
+        startup_config = helpers.read_yaml_file('./src/stock_watch/configs/startup_config.yml')
+
+        # TODO: Add logic to add the dockerhub username to the docker compose file
+        self.docker_credentials = DockerCredentialModel(
+            username=helpers.check_value(startup_config['dockerhub']['username']),
+            password=helpers.check_value(startup_config['dockerhub']['password'])
+        )
+
+        self.stockbroker_credentials = StockbrokerCredentialModel(
+            client_id=helpers.check_value(startup_config['stockbroker']['client_id']),
+            redirect_url=helpers.check_value(startup_config['stockbroker']['redirect_uri']),
+            refresh_token=helpers.check_value(startup_config['stockbroker']['refresh_token'])
+        )
+
+        # TODO: Fix the hard coded database credentials
+        self.database_credentials = DatabaseCredentialModel(database_name='stockdata',
+                                                            user='stockdata',
+                                                            host='localhost',
+                                                            password='mysecretpassword')
+
+        # Spin up the dockerized database
+        docker_directory = f'src/stock_watch/docker/configs/docker_compose/docker-compose-database.yml'
+        docker_compose_command = CommandModel(
+            child_command=DockerComposeCommandType.UP,
+            child_command_options=['--build', '--force-recreate', '--detach'],
+            parent_input_options={'-f': docker_directory},
+        )
+        asyncio.run(Docker().ComposeCLI.run(docker_compose_command=docker_compose_command))
+
+        self.stockbroker_service = StockbrokerService(
+            stockbroker_credentials=self.stockbroker_credentials,
+            database_credentials=self.database_credentials
         )
 
         p = multiprocessing.Process(target=lambda: flaskr.run())
         p.start()
 
-        p2 = multiprocessing.Process(target=lambda: self.stockbroker.run())
+        p2 = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
         p2.start()
 
         p.join()
         p2.join()
-
-        # # Create a stockbroker api handler to
-        # self.tdameritrade_service = api_handler.ApiHandler(api_config)
-        #
-        #
-        # while True:
-        #     #
-        #     database_service = DatabaseDockerService(
-        #         docker_username=args.docker_user,
-        #         docker_password=args.docker_password,
-        #         docker_compose_file='docker/database/docker_compose/docker-compose-database.yml',
-        #         working_dir=working_dir
-        #     )
-        #     database_service.stop_database()
-        #     database_service.start_database()
-        #
-        #     stockbroker.run(api_handler, StockIndexType.NASDAQ, DirectionType.UP, ValueChangeType.PERCENT)
-        #
-        #     database_api = DatabaseAPI()
-        #     database_api.insert_movers(movers)

@@ -1,10 +1,7 @@
-import time
-
 import requests
-
 from datetime import datetime
-from src.stock_watch import logger
 from src.stock_watch.stockbroker.models.stockbroker_credential_model import StockbrokerCredentialModel
+from src.stock_watch import logger
 
 logging = logger.get(__name__)
 
