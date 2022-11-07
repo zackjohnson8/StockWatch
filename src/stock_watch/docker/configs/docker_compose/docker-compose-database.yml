@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    image: zackjohnson8/stockwatch-database:latest
+    image: stockwatch-database
     restart: always
     build:
       context: .
@@ -17,7 +17,7 @@ services:
       - '0.0.0.0:5432:5432'
 
   adminer:
-    image: zackjohnson8/stockwatch-adminer:latest
+    image: stockwatch-adminer
     restart: always
     build:
       context: .

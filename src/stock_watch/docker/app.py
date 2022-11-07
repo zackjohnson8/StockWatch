@@ -8,20 +8,20 @@ class DockerCLI:
     def __init__(self):
         pass
 
-    async def run(self, docker_command: CommandModel):
+    def run(self, docker_command: CommandModel):
         command = command_helper.create_command(commands=docker_command)
-        command_helper.run_commands(commands=command)
-        await asyncio.sleep(1)
+        task = [command_helper.run_command(*command)]
+        command_helper.run_asyncio_commands(task)
 
 
 class ComposeCLI:
     def __init__(self):
         pass
 
-    async def run(self, docker_compose_command: CommandModel):
+    def run(self, docker_compose_command: CommandModel):
         command = command_helper.create_command(commands=docker_compose_command)
-        command_helper.run_commands(commands=command)
-        await asyncio.sleep(1)
+        task = [command_helper.run_command(*command)]
+        command_helper.run_asyncio_commands(task)
 
 
 class Docker:
