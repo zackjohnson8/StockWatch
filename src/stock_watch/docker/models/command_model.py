@@ -1,9 +1,14 @@
-from src.stock_watch.stockbroker.docker.models.types import docker_command_type
+from typing import TypeVar
+
+from src.stock_watch.docker.models.types.docker_command_type import DockerCommandType
+from src.stock_watch.docker.models.types.docker_compose_command_type import DockerComposeCommandType
+
+T = TypeVar("T", DockerCommandType, DockerComposeCommandType)
 
 
-class DockerCommandModel:
+class CommandModel:
     def __init__(self,
-                 child_command: docker_command_type.DockerCommandType,
+                 child_command: T,
                  child_command_options: list[str] = None,
                  child_input_command_options: dict[str, str] = None,
                  parent_options: list[str] = None,
@@ -22,6 +27,10 @@ class DockerCommandModel:
             '--file': None, '--profile': None, '--project-directory': './docker_directory/project_directory',
             '--project-name': None}
         """
+        if type(child_command).__name__ is 'DockerComposeCommandType':
+            self.cli_type = 'docker-compose'
+        else:
+            self.cli_type = 'docker'
         self.child_command = child_command
         self.child_command_options = child_command_options
         self.child_input_command_options = child_input_command_options

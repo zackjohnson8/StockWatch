@@ -1,57 +1,51 @@
 import multiprocessing
+import time
 
-from src.stock_watch import flaskr
-from src.stock_watch.stockbroker.app import StockBroker
-from src.stock_watch.stockbroker.docker.models import docker_credential_model
-from src.stock_watch.stockbroker.models import stockbroker_credential_model
+from src.stock_watch import flaskr, helpers
+from src.stock_watch.docker.app import Docker
+from src.stock_watch.docker.models.command_model import CommandModel
+from src.stock_watch.docker.models.types.docker_compose_command_type import DockerComposeCommandType
+from src.stock_watch.helpers import get_startup_configs
+from src.stock_watch.stockbroker.services.stockbroker_service import StockbrokerService
 
 
 class StockWatch:
 
     def __init__(self):
-        self.db_service = None
+        self.stockbroker_service = None
+        self.stockbroker_credentials = None
+        self.database_credentials = None
+        self.docker_credentials = None
         self.stockbroker = None
 
-    def run(self,
-            docker_credential: docker_credential_model.DockerCredentialModel,
-            stockbroker_credential: stockbroker_credential_model.StockbrokerCredentialModel,
-            ):
-        """
-        This will start the stock watch application.
-        :param docker_credential: Credentials for interacting with the docker service.
-        :param stockbroker_credential: Credentials for interacting with the stockbroker service.
-        :return:
-        """
-        self.stockbroker = StockBroker(
-            stockbroker_credential=stockbroker_credential,
-            docker_credential=docker_credential
+    def run(self):
+        # Spin up the dockerized database
+        docker_directory = helpers.find_file('docker-compose-database.yml', './')
+        docker_compose_command = CommandModel(
+            child_command=DockerComposeCommandType.UP,
+            child_command_options=['--build', '--force-recreate', '--detach'],
+            parent_input_options={'-f': docker_directory},
         )
+        Docker().ComposeCLI.run(docker_compose_command=docker_compose_command)
 
+        # TODO: This needs to be implemented with the nginx server. Currently, this is running locally.
         p = multiprocessing.Process(target=lambda: flaskr.run())
         p.start()
 
-        p2 = multiprocessing.Process(target=lambda: self.stockbroker.run())
+        # TODO: Using this to slow down the program so that the database can be created. Something needs to be
+        #  changed either in the Docker() or checked for in the StockBrokerService()
+        time.sleep(5)
+
+        # Get the startup configs from the startup_config file in the config folder. Be sure to modify this file before
+        # running the application.
+        stockbroker_credentials, database_credentials = get_startup_configs()
+        # Spin up the stockbroker service
+        self.stockbroker_service = StockbrokerService(
+            stockbroker_credentials=stockbroker_credentials,
+            database_credentials=database_credentials
+        )
+        p2 = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
         p2.start()
 
         p.join()
         p2.join()
-
-        # # Create a stockbroker api handler to
-        # self.tdameritrade_service = api_handler.ApiHandler(api_config)
-        #
-        #
-        # while True:
-        #     #
-        #     database_service = DatabaseDockerService(
-        #         docker_username=args.docker_user,
-        #         docker_password=args.docker_password,
-        #         docker_compose_file='docker/database/docker_compose/docker-compose-database.yml',
-        #         working_dir=working_dir
-        #     )
-        #     database_service.stop_database()
-        #     database_service.start_database()
-        #
-        #     stockbroker.run(api_handler, StockIndexType.NASDAQ, DirectionType.UP, ValueChangeType.PERCENT)
-        #
-        #     database_api = DatabaseAPI()
-        #     database_api.insert_movers(movers)
