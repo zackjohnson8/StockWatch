@@ -1,11 +1,15 @@
-import requests
+from __future__ import annotations
+from typing import Any
 from src.stock_watch.stockbroker.oauth import OAuth
+import requests
+import logging
+
 
 def get_accounts_watchlists(
         oauth: OAuth,
         params: dict = None,
         **kwargs
-) -> dict:
+) -> Any | None:
     response = requests.get(
         url=f'https://api.tdameritrade.com/v1/accounts/watchlists',
         params=params,
@@ -15,5 +19,4 @@ def get_accounts_watchlists(
     if response.status_code == 200:
         return response.json()
     else:
-        # return logging.error(f'Error: {response.status_code} {response.reason}')
-        pass
+        return logging.error(f'Error: {response.status_code} {response.reason}')

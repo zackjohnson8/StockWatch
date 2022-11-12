@@ -2,7 +2,6 @@ import os
 import yaml
 import logging
 import logging.config
-import helpers
 
 DEFAULT_LEVEL = logging.INFO
 
@@ -12,11 +11,10 @@ if not os.path.exists('logs'):
 
 
 def get(name):
-    _setup_logging(config_path=helpers.find_file('logging_config.yml', './'))
     return logging.getLogger(name)
 
 
-def _setup_logging(config_path, default_level=DEFAULT_LEVEL):
+def setup_logging(config_path, default_level=DEFAULT_LEVEL):
     try:
         with open(config_path, 'rt') as cfg_file:
             config_file = yaml.safe_load(cfg_file.read())
