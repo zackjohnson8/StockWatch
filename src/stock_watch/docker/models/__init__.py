@@ -8,3 +8,5 @@ from .docker_compose_command_model import DockerComposeCommandModel
 from .docker_compose_command_type import DockerComposeCommandType
 from .docker_credential_model import DockerCredentialModel
 
+__all__ = [CLIType, DockerCommandModel, DockerCommandType, DockerComposeCommandModel, DockerComposeCommandType,
+           DockerCredentialModel]

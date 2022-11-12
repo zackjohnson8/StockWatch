@@ -9,10 +9,6 @@ from src.stock_watch.stockbroker.api import price_history
 from src.stock_watch.stockbroker.models.stockbroker_credential_model import StockbrokerCredentialModel
 from src.stock_watch.stockbroker.oauth import OAuth
 
-import src.stock_watch.logger as logger
-
-logging = logger.get(__name__)
-
 
 class StockbrokerService:
     """

@@ -3,10 +3,6 @@ from typing import Any
 import psycopg2
 from .models import DatabaseCredentialModel
 
-import src.stock_watch.logger as logger
-
-logging = logger.get(__name__)
-
 
 class Connection:
     def __init__(self, database_credentials: DatabaseCredentialModel):
@@ -24,7 +20,8 @@ class Connection:
                 f"host={self._database_credentials.host} "
                 f"password={self._database_credentials.password}")
         except psycopg2.Error as e:
-            logging.info(f"Failed to connect to database: {e}")
+            # logging.info(f"Failed to connect to database: {e}")
+            raise e
 
     def disconnect(self):
         if self._connection is not None:

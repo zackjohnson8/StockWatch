@@ -1,10 +1,5 @@
 import aiohttp as aiohttp
-import requests
 from src.stock_watch.stockbroker.oauth import OAuth
-
-import src.stock_watch.logger as logger
-
-logging = logger.get(__name__)
 
 
 async def get_price_history(
@@ -20,4 +15,5 @@ async def get_price_history(
             if response.status == 200:
                 return await response.json()
             else:
-                return logging.error(f'Error: {response.status} {response.reason}')
+                # return logging.error(f'Error: {response.status} {response.reason}')
+                pass

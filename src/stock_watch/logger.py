@@ -2,7 +2,7 @@ import os
 import yaml
 import logging
 import logging.config
-import src.stock_watch.helpers as helpers
+import helpers
 
 DEFAULT_LEVEL = logging.INFO
 
@@ -12,6 +12,7 @@ if not os.path.exists('logs'):
 
 
 def get(name):
+    _setup_logging(config_path=helpers.find_file('logging_config.yml', './'))
     return logging.getLogger(name)
 
 
@@ -23,6 +24,3 @@ def _setup_logging(config_path, default_level=DEFAULT_LEVEL):
     except Exception as e:
         print(f'Error: {e}, with file, using Default logging')
         logging.basicConfig(level=default_level)
-
-
-_setup_logging(config_path=helpers.find_file('logging_config.yml', './'))

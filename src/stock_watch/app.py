@@ -14,8 +14,8 @@ class StockWatch:
     def run(self):
         # Spin up the dockerized database
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
-        docker_compose_command = docker.DockerComposeCommandModel(
-            command=docker.DockerComposeCommandType.UP,
+        docker_compose_command = docker.models.DockerComposeCommandModel(
+            command=docker.models.DockerComposeCommandType.UP,
             files=[docker_directory],
             child_options={'--build': None, '--force-recreate': None, '--detach': None}
         )
@@ -30,10 +30,10 @@ class StockWatch:
 
         # TODO: Rework this service to reflect the addition of data_scraping. This
         #  service will probably only be used for trading and monitoring stocks that are actively being traded.
-        stockbroker_credentials, database_credentials = helpers.get_startup_configs()
-        self.stockbroker_service = stockbroker.StockbrokerService(
-            stockbroker_credentials=stockbroker_credentials,
-            database_credentials=database_credentials
+        from stock_watch import STOCKBROKER_CREDENTIALS, DATABASE_CREDENTIALS
+        self.stockbroker_service = stockbroker.services.StockbrokerService(
+            stockbroker_credentials=STOCKBROKER_CREDENTIALS,
+            database_credentials=DATABASE_CREDENTIALS
         )
         p2 = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
         p2.start()

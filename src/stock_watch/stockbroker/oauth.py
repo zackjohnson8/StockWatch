@@ -1,9 +1,6 @@
 import requests
 from datetime import datetime
-from src.stock_watch.stockbroker.models.stockbroker_credential_model import StockbrokerCredentialModel
-from src.stock_watch import logger
-
-logging = logger.get(__name__)
+from .models import StockbrokerCredentialModel
 
 
 class OAuth:
@@ -30,7 +27,8 @@ class OAuth:
             self.stockbroker_credential.access_token = response.json()['access_token']
             self._update_access_token_refresh_time()
         else:
-            return logging.error(f'Error: {response.status_code} {response.reason}')
+            # return logging.error(f'Error: {response.status_code} {response.reason}')
+            pass
 
     def _update_access_token_refresh_time(self):
         self.access_token_refresh_time = datetime.now()

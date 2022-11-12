@@ -1,9 +1,6 @@
 import requests
 from src.stock_watch.stockbroker.oauth import OAuth
 
-import src.stock_watch.logger as logger
-logging = logger.get(__name__)
-
 def get_accounts_watchlists(
         oauth: OAuth,
         params: dict = None,
@@ -18,4 +15,5 @@ def get_accounts_watchlists(
     if response.status_code == 200:
         return response.json()
     else:
-        return logging.error(f'Error: {response.status_code} {response.reason}')
+        # return logging.error(f'Error: {response.status_code} {response.reason}')
+        pass

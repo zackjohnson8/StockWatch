@@ -3,9 +3,6 @@ from urllib3.connectionpool import xrange
 import asyncio
 import platform
 import sys
-import src.stock_watch.logger as logger
-
-logging = logger.get(__name__)
 
 
 async def run_shell_command(*args):
