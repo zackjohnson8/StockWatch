@@ -1,7 +1,7 @@
 import psycopg2
 
 
-class DatabaseAPI:
+class Movers:
     def __init__(self):
         self.connection = psycopg2.connect(
             "dbname='stockdata' user='stockdata' host='localhost' password='mysecretpassword'")

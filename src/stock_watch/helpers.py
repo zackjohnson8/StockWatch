@@ -1,10 +1,10 @@
 import os
 import sys
 import yaml
-from src.stock_watch.database.models.database_credential_model import DatabaseCredentialModel
-from src.stock_watch.stockbroker.models.stockbroker_credential_model import StockbrokerCredentialModel
+import database
+import stockbroker
 
-import src.stock_watch.logger as logger
+import logger
 logging = logger.get(__name__)
 
 
@@ -25,13 +25,13 @@ def check_value(value):
 
 
 def get_startup_configs():
-    startup_config = read_yaml_file('./src/stock_watch/configs/startup_config.yml')
+    startup_config = read_yaml_file(find_file('startup_config.yml', './'))
 
-    return StockbrokerCredentialModel(
+    return stockbroker.models.StockbrokerCredentialModel(
         client_id=check_value(startup_config['stockbroker']['client_id']),
         redirect_url=check_value(startup_config['stockbroker']['redirect_uri']),
         refresh_token=check_value(startup_config['stockbroker']['refresh_token'])
-    ), DatabaseCredentialModel(
+    ), database.models.DatabaseCredentialModel(
         database_name=check_value(startup_config['database']['name']),
         user=check_value(startup_config['database']['user']),
         host=check_value(startup_config['database']['host']),

@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask
 
 host = '0.0.0.0'

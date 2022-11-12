@@ -6,13 +6,13 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: ./../dockerfile/postgres_database.Dockerfile
+      dockerfile: dockerfiles/postgres_database.Dockerfile
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=stockdata
       - POSTGRES_DB=stockdata
     volumes:
-      - ./../../database_volumes/database/data:/var/lib/postgresql/data
+      - ./database_volumes/database/data:/var/lib/postgresql/data
     ports:
       - '0.0.0.0:5432:5432'
 
@@ -21,6 +21,6 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: ./../dockerfile/adminer_database_gui.Dockerfile
+      dockerfile: dockerfiles/adminer_database_gui.Dockerfile
     ports:
       - '0.0.0.0:8080:8080'

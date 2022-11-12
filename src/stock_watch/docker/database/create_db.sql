@@ -22,3 +22,14 @@ CREATE TABLE IF NOT EXISTS posts (
   body text not null,
   foreign key (author_id) references accounts (id)
 );
+
+CREATE TABLE IF NOT EXISTS candles (
+  id serial primary key,
+  symbol varchar not null,
+  datetime timestamp not null,
+  open real not null,
+  high real not null,
+  low real not null,
+  close real not null,
+  volume integer not null
+);

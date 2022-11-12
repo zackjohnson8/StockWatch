@@ -1,8 +1,8 @@
 import requests
 
-from src.stock_watch.stockbroker.models.types.direction_type import DirectionType
-from src.stock_watch.stockbroker.models.types.stock_index_type import StockIndexType
-from src.stock_watch.stockbroker.models.types.value_change_type import ValueChangeType
+from src.stock_watch.stockbroker.models.direction_type import DirectionType
+from src.stock_watch.stockbroker.models.stock_index_type import StockIndexType
+from src.stock_watch.stockbroker.models.value_change_type import ValueChangeType
 from src.stock_watch.stockbroker.oauth import OAuth
 
 import src.stock_watch.logger as logger

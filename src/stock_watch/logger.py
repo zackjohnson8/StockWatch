@@ -2,6 +2,7 @@ import os
 import yaml
 import logging
 import logging.config
+import src.stock_watch.helpers as helpers
 
 DEFAULT_LEVEL = logging.INFO
 
@@ -24,4 +25,4 @@ def _setup_logging(config_path, default_level=DEFAULT_LEVEL):
         logging.basicConfig(level=default_level)
 
 
-_setup_logging(config_path='src/stock_watch/configs/logging_config.yml')
+_setup_logging(config_path=helpers.find_file('logging_config.yml', './'))

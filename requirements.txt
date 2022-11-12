@@ -5,3 +5,5 @@ psycopg2-binary~=2.9.3
 Flask~=2.2.2
 setuptools~=60.2.0
 Werkzeug~=2.2.2
+urllib3~=1.26.12
+aiohttp~=3.8.3
