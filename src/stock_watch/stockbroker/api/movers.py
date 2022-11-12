@@ -1,4 +1,9 @@
+from __future__ import annotations
+
+from typing import Any
+
 import requests
+import logging
 
 from src.stock_watch.stockbroker.models.direction_type import DirectionType
 from src.stock_watch.stockbroker.models.stock_index_type import StockIndexType
@@ -12,7 +17,7 @@ def get(
         direction: DirectionType,
         change: ValueChangeType,
         **kwargs
-) -> dict:
+) -> Any | None:
     response = requests.get(
         url=f'https://api.tdameritrade.com/v1/marketdata/{index.value}/movers',
         params={'direction': direction.value, 'change': change.value},
@@ -22,5 +27,4 @@ def get(
     if response.status_code == 200:
         return response.json()
     else:
-        # return logging.error(f'Error: {response.status_code} {response.reason}')
-        pass
+        return logging.error(f'Error: {response.status_code} {response.reason}')

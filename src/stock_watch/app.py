@@ -3,6 +3,7 @@ import helpers
 import docker
 import data_scraper
 import stockbroker
+import logging
 
 
 class StockWatch:
@@ -12,6 +13,7 @@ class StockWatch:
         self.ds_service = None
 
     def run(self):
+        logging.info('Starting StockWatch')
         # Spin up the dockerized database
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
         docker_compose_command = docker.models.DockerComposeCommandModel(
@@ -40,3 +42,4 @@ class StockWatch:
 
         p1.join()
         p2.join()
+        logging.info('StockWatch has stopped')

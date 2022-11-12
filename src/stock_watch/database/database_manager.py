@@ -1,6 +1,6 @@
-from typing import Any
-
 import psycopg2
+import logging
+from typing import Any
 from .models import DatabaseCredentialModel
 
 
@@ -20,7 +20,7 @@ class Connection:
                 f"host={self._database_credentials.host} "
                 f"password={self._database_credentials.password}")
         except psycopg2.Error as e:
-            # logging.info(f"Failed to connect to database: {e}")
+            logging.info(f"Failed to connect to database: {e}")
             raise e
 
     def disconnect(self):

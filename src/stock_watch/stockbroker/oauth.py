@@ -1,6 +1,9 @@
-import requests
+from __future__ import annotations
+from typing import Any
 from datetime import datetime
 from .models import StockbrokerCredentialModel
+import requests
+import logging
 
 
 class OAuth:
@@ -13,7 +16,7 @@ class OAuth:
         self.access_token_refresh_time = None
         self.stockbroker_credential = stockbroker_credential
 
-    def _get_access_token(self) -> str:
+    def _get_access_token(self) -> Any | None:
         response = requests.post(
             url='https://api.tdameritrade.com/v1/oauth2/token',
             data={
@@ -27,8 +30,7 @@ class OAuth:
             self.stockbroker_credential.access_token = response.json()['access_token']
             self._update_access_token_refresh_time()
         else:
-            # return logging.error(f'Error: {response.status_code} {response.reason}')
-            pass
+            return logging.error(f'Error: {response.status_code} {response.reason}')
 
     def _update_access_token_refresh_time(self):
         self.access_token_refresh_time = datetime.now()
