@@ -1,24 +1,20 @@
-import os
-import shutil
-from sys import platform
 import logging
-import praw
-import src.stock_watch.helpers as helpers
+
+from ..configs import config
+from ..apis import reddit_api
 
 
 class RedditScraper(object):
+    """
+    Praw Reddit API Decorator
+    """
 
     def __init__(self):
         self._running = False
+        self._config = config.Config()
 
-        self._setup_praw_init_file()
-
-        try:
-            self._reddit_api = praw.Reddit(site_name="stock_watch_bot")
-            logging.info(f"Reddit API initialized: {self._reddit_api.user.me()}")
-        except Exception as e:
-            logging.error(e)
-            raise e
+        self._reddit_api = reddit_api.RedditAPI(config=self._config, site_name="stock_watch_bot")
+        logging.info(self._reddit_api.user.me())
 
     def run(self):
         """
@@ -37,9 +33,3 @@ class RedditScraper(object):
 
     def stop(self):
         self._running = False
-
-    def _setup_praw_init_file(self):
-        if platform == "linux":
-            praw_file_dir = helpers.find_file("praw.ini", "./")
-            home_dir = os.getenv("HOME") + "/.config" + "/praw.ini"
-            shutil.copyfile(praw_file_dir, home_dir)
