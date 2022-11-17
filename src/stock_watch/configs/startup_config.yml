@@ -1,13 +1,10 @@
 stockbroker:
-  refresh_token: sMp9bKt0OTyEx7fGOZhv2FHuUAmpZswx35L11ZJ2Wi3KW4TvK8wUrc5FuEXHT00K/zLX5fYL510uAwGIwujUYeq3/UjCRo8w2mz5zgD74fM65+Vibsaenb2OWIEYs8prLwFkVL1A02nxmGuBory/gT2CXtgojLmVXTNVyBCsMZNVykpoefkSf0wvIqInBEqBYDVGkGzyllzACVpbJcqEPZzDuLjPNUzZqbvgXmLJzI2NH8WdRf0qYVwr4xx/2mZOFFSvaJoB+OEcoT1wN9sSu8LFQ0ZqzCpYUS2ygphFDCYojx9/nI8KSFoAwhCNV8ENGmoppqeayZemnXOPjQ48AL8klh3AhZCs/lhmFYFvzzs0vcNqFYvWS1BiBTLDI9eRh/YFJTPAdiHm2alFzrbKWLQQM/m2sQ3yKh+bh4zxc752YbLrqXnZ3ZwI9di100MQuG4LYrgoVi/JHHvlfyKvXbMd6JEIuipm3OLUa1XA3HmlBfZVqZwYUluwHgfqEdyAoFawIWb92glyPo6V1nPNS0y1jFYYFWqexdGGeXXK7vnva1i5vNeOAlf0QtYceuIzOBkiUthSoP7RyeVycuN8C63fqx6vtnsR/SukW7bsSMWKAL9CKciDGqzyOw551u4yQs9e1Hrnu0LEYkv0fEb29DzI72X1I1m6H8hN57nTEeLE7T5kn2uTczopK57ZgNMpm+e5Oypt73U7+Xs+PpA6D6gUkDj1ydV/0DF2pGNkorepTrBA+rXmwrb4CCv9vpar5H1px73UYUM7jDnuhry0rOD9kweAKbIZLvpEM6cs48h6Bflyp+gzDbanX2/qSxc1Ls17VCs2Xyi9wjxRPD0+e05WLM684R95PI44KoZpnypX/EXfsbHLOJ7DzCSjydQEsdyi5Vh0W1I=212FD3x19z9sWBHDJACbC00B75E
-  client_id: PPS7FAO2SQYJBKHURYQO8PFTOPUBQXPH
-  redirect_uri: https://localhost
+  refresh_token: <REPLACE_WITH_REFRESH_TOKEN>
+  client_id: <REPLACE_WITH_CLIENT_ID>
+  redirect_uri: <REPLACE_WITH_REDIRECT_URI>
 
 database:
-  name: stockdata
-  user: stockdata
-  host: localhost
-  password: mysecretpassword
-
-reddit:
-  client_secret: jGsyBRoeTfSg22UbKAEAqSLNWpT4Tw
+  name: <REPLACE_WITH_DATABASE_NAME>
+  user: <REPLACE_WITH_DATABASE_USER>
+  host: <REPLACE_WITH_DATABASE_HOST>
+  password: <REPLACE_WITH_DATABASE_PASSWORD>
