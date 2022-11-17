@@ -9,12 +9,14 @@ import logging
 class StockWatch:
 
     def __init__(self):
+        self.data_scraper_service = None
         self.stockbroker_service = None
         self.ds_service = None
 
     def run(self):
         logging.info('Starting StockWatch')
-        # Spin up the dockerized database
+
+        # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
         docker_compose_command = docker.models.DockerComposeCommandModel(
             command=docker.models.DockerComposeCommandType.UP,
@@ -24,12 +26,13 @@ class StockWatch:
         docker_cli = docker.CLI()
         docker_cli.run_command(command=docker_compose_command)
 
-        # Start the data scraper service. This will monitor a list of web sources for prudent information. This will
-        # populate the database with data to be used by an Analysis Service.
-        self.ds_service = data_scraper.DataScraperService()
-        p1 = multiprocessing.Process(target=self.ds_service.run())
-        p1.start()
+        # Data Scraping
+        self.data_scraper_service = data_scraper.DataScraperService()
+        data_scraper_process = multiprocessing.Process(target=lambda: self.data_scraper_service.start_scrapers())
+        data_scraper_process.start()
+        logging.info('Started data scraper')
 
+        # Stockbroker
         # TODO: Rework this service to reflect the addition of data_scraping. This
         #  service will probably only be used for trading and monitoring stocks that are actively being traded.
         from stock_watch import STOCKBROKER_CREDENTIALS, DATABASE_CREDENTIALS
@@ -37,9 +40,11 @@ class StockWatch:
             stockbroker_credentials=STOCKBROKER_CREDENTIALS,
             database_credentials=DATABASE_CREDENTIALS
         )
-        p2 = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
-        p2.start()
+        stock_watch_process = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
+        stock_watch_process.start()
+        logging.info('Started stock watch service')
 
-        p1.join()
-        p2.join()
+        # Join the services back
+        data_scraper_process.join()
+        stock_watch_process.join()
         logging.info('StockWatch has stopped')

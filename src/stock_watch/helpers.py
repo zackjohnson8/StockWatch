@@ -3,11 +3,12 @@ import yaml
 import sys
 import stockbroker
 import database
+import logging
 
 
 def check_value(value):
     if value[0] == '<' and value[len(value) - 1] == '>':
-        # logger.error(f'Please update the value of {value} in the startup_config.yml file')
+        logging.error(f'Please update the value of {value} in the startup_config.yml file')
         sys.exit(1)
     return value
 

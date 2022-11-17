@@ -1,4 +1,10 @@
 stockbroker:
-  refresh_token: <REFRESH-TOKEN>
-  client_id: <CLIENT-ID>
-  redirect_uri: <REDIRECT-URI>
+  refresh_token: <REPLACE_WITH_REFRESH_TOKEN>
+  client_id: <REPLACE_WITH_CLIENT_ID>
+  redirect_uri: <REPLACE_WITH_REDIRECT_URI>
+
+database:
+  name: <REPLACE_WITH_DATABASE_NAME>
+  user: <REPLACE_WITH_DATABASE_USER>
+  host: <REPLACE_WITH_DATABASE_HOST>
+  password: <REPLACE_WITH_DATABASE_PASSWORD>

@@ -7,3 +7,6 @@ setuptools~=60.2.0
 Werkzeug~=2.2.2
 urllib3~=1.26.12
 aiohttp~=3.8.3
+praw~=7.6.1
+prawcore~=2.3.0
+config~=0.5.1

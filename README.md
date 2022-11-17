@@ -1,22 +1,18 @@
 <a name="readme-top"></a>
 ## About The Project
-Using the TDAmeritrade API, this program affords the capability to retrieve data from the stock market. It stores 
-data in a dockerized PostgreSQL. For communication with the front-end, the Flask microframework is used.  As of now, 
-this program does not contain its own GUI to display the information, it is meant to be used with a separate front-end.
+StockWatch is a web scraping analyzer which trades stocks based on public sentiment, or I hope it will be soon. The 
+technology being used is docker to run a database container, PostgreSQL database to store data, TDAmeritrade API to 
+handle automated trading, and Flask to run the web server (Will probably remove in the future as this 
+application becomes more personal single use. Previously it was being built as a back-end to a front-end application, 
+that is no longer the case).
 
 ## Getting Started
-To run this program, you will need to have a TDAmeritrade developer account with a refresh token, client ID, and 
-redirect URI. Use the <a href='https://developer.tdameritrade.com/content/getting-started'>TDAmeritrade Getting Started</a> to get this information.</br>
-
-Update the startup_config.yml file with your TDAmeritrade information. The program will not run without this 
-information.
-
-## Roadmap
-- [x] Add TDAmeritrade API
-- [x] Add Docker PostgreSQL container
-- [x] Add logic to store data in PostgreSQL database
-- [x] Add a flask service
-- [ ] Add the logic for communicating with outside sources
+### Configuration
+Modify the configuration files listed below. The information changed in these files should not be commited and are 
+sensitive. Note: until a better solution is implemented, follow this links implementation of --assume-unchanged 
+https://stackoverflow.com/questions/18276951/how-do-i-stop-git-from-tracking-any-changes-to-a-file-from-this-commit-forward
+* ```./src/stock_watch/startup_config.yml``` - This file contains the configuration for TDAmeritrade API
+* ```./src/stock_watch/data_scraper/configs/praw.ini``` - This file contains the configuration for Reddit API
 
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any 
