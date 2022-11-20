@@ -27,10 +27,14 @@ class StockWatch:
         docker_cli.run_command(command=docker_compose_command)
 
         # Data Scraping
+        # Create a scraper service to manage the scrapers
         self.data_scraper_service = data_scraper.DataScraperService()
-        data_scraper_process = multiprocessing.Process(target=lambda: self.data_scraper_service.start_scrapers())
-        data_scraper_process.start()
-        logging.info('Started data scraper')
+        # Create scrapers
+        reddit_scraper = data_scraper.scrapers.reddit_scraper.RedditScraper()
+        # Add scrapers to the scraper service
+        self.data_scraper_service.add_scraper(scraper=reddit_scraper)
+        # Start scraper service
+        self.data_scraper_service.start_scrapers()
 
         # Stockbroker
         # TODO: Rework this service to reflect the addition of data_scraping. This
@@ -45,6 +49,4 @@ class StockWatch:
         logging.info('Started stock watch service')
 
         # Join the services back
-        data_scraper_process.join()
-        stock_watch_process.join()
         logging.info('StockWatch has stopped')
