@@ -4,7 +4,7 @@ import praw
 from praw.util.token_manager import BaseTokenManager
 from prawcore import Requestor
 
-from ..configs import config as configuration
+from ..configs import config
 
 
 class RedditAPI(object):
@@ -15,7 +15,6 @@ class RedditAPI(object):
     """
 
     def __init__(self,
-                 config: configuration.Config = None,
                  site_name: Optional[str] = None,
                  *,
                  config_interpolation: Optional[str] = None,
@@ -45,10 +44,8 @@ class RedditAPI(object):
             This parameter must be provided in order to work with refresh tokens
             (default: ``None``).
         """
-
-        if config is not None:
-            self._config = config
-            self._config.copy_praw_ini_file_to_platform()
+        self._config = config.Config()
+        self._config.copy_praw_ini_file_to_platform_folder()
 
         self._reddit_api = praw.Reddit(
             site_name=site_name,
