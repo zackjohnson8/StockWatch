@@ -4,7 +4,8 @@ import docker
 import data_scraper
 import stockbroker
 import logging
-
+import message_bus
+import stock_watch
 
 class StockWatch:
 
@@ -15,6 +16,12 @@ class StockWatch:
 
     def run(self):
         logging.info('Starting StockWatch')
+
+        # Subscribe to all message types for testing.
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.RESEARCH, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.ANALYSIS, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.TRADING, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.DATABASE, self.test)
 
         # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
@@ -50,3 +57,6 @@ class StockWatch:
 
         # Join the services back
         logging.info('StockWatch has stopped')
+
+    def test(self, message):
+        print(message)

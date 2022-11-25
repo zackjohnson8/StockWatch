@@ -1,6 +1,6 @@
 from src.stock_watch.app import StockWatch
-import logger
 import helpers
+import logger
 
 def main():
     logger.setup_logging(helpers.find_file('logging_config.yml', './'))
