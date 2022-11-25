@@ -1,41 +1,28 @@
-from .message_queue import MessageQueue
-from .message_handler import MessageHandler
+from typing import Any
+from enum import Enum
+
+
+# MessageTypes
+class MessageTypes(Enum):
+    """Message types for stock watch."""
+    RESEARCH = 0
+    ANALYSIS = 1
+    TRADING = 2
+    DATABASE = 3
 
 
 class MessageBus(object):
-    """Message bus for stock watch.
-
-    The message bus is responsible for sending messages to the
-    message queue and receiving messages from the message queue.
-    """
+    _subscriptions = None
 
     def __init__(self):
-        """Initialize the message bus.
+        self._subscriptions = []
 
-        """
-        self._message_queue = MessageQueue()
-        self._message_handler = MessageHandler()
+    def subscribe(self, message_type: MessageTypes, callback: ()):
+        self._subscriptions.append({message_type: callback})
 
-    def send_message(self, message):
-        """Send a message to the message queue.
-
-        Args:
-            message: The message to send.
-        """
-        self._message_queue.send_message(message)
-
-    def receive_message(self):
-        """Receive a message from the message queue.
-
-        Returns:
-            The message received.
-        """
-        return self._message_queue.receive_message()
-
-    def handle_message(self, message):
-        """Handle a message.
-
-        Args:
-            message: The message to handle.
-        """
-        self._message_handler.handle_message(message)
+    def publish(self, message_type: MessageTypes, message: Any):
+        for subscription in self._subscriptions:
+            subscription_type = list(subscription.keys())[0]
+            if subscription_type.value == message_type.value:
+                call_back = subscription[subscription_type]
+                call_back(message)
