@@ -18,10 +18,10 @@ class StockWatch:
         logging.info('Starting StockWatch')
 
         # Subscribe to all message types for testing.
-        stock_watch.service_bus.subscribe(message_bus.MessageTypes.RESEARCH, self.test)
-        stock_watch.service_bus.subscribe(message_bus.MessageTypes.ANALYSIS, self.test)
-        stock_watch.service_bus.subscribe(message_bus.MessageTypes.TRADING, self.test)
-        stock_watch.service_bus.subscribe(message_bus.MessageTypes.DATABASE, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.RESEARCH, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.ANALYSIS, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.TRADING, self.test)
+        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.DATABASE, self.test)
 
         # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')

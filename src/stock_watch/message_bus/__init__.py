@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 
-# Files
-from .message_bus import MessageBus, MessageTypes
+# Packages
+from . import models
 
-__all__ = [MessageBus, MessageTypes]
+# Files
+from .message_bus import MessageBus
+
+__all__ = [MessageBus, models]

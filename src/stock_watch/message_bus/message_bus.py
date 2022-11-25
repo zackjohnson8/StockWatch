@@ -1,15 +1,5 @@
 from typing import Any
-from enum import Enum
-
-
-# MessageTypes
-class MessageTypes(Enum):
-    """Message types for stock watch."""
-    RESEARCH = 0
-    ANALYSIS = 1
-    TRADING = 2
-    DATABASE = 3
-
+from .models.types import MessageTypes
 
 class MessageBus(object):
     _subscriptions = None
@@ -29,14 +19,8 @@ class MessageBus(object):
                 self._call_subscription_callback(subscription=subscription, message=message)
 
     def _is_subscribed_to_message_type(self, subscription: {}, message_type: MessageTypes):
-        for subscription in self._subscriptions:
-            subscription_type = self._get_subscription_type(subscription)
-            if subscription_type.value == message_type.value:
-                return True
-        return False
+        return list(subscription.keys())[0].value == message_type.value
 
-    def _get_subscription_type(self, subscription: {}):
-        return list(subscription.keys())[0]
 
     def _call_subscription_callback(self, subscription: {}, message: Any):
         callback = list(subscription.values())[0]
