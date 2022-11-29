@@ -1,18 +1,14 @@
-from typing import Any, TypeVar
-from .models.subscription import Subscription
-from .models.publish import Publish
-
-T = TypeVar('T', Publish, Subscription)
+from typing import Any
 
 
 class MessageQueue:
     def __init__(self):
         self._queue = []
 
-    def put(self, command: T) -> None:
+    def put(self, command: Any) -> None:
         self._queue.append(command)
 
-    def get(self) -> T:
+    def get(self) -> Any:
         return self._queue.pop(0)
 
     def __len__(self) -> int:
@@ -26,3 +22,6 @@ class MessageQueue:
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}({self._queue})"
+
+    def empty(self):
+        return len(self._queue) == 0
