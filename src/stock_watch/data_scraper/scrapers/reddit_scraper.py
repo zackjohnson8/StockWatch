@@ -8,13 +8,12 @@ from stock_watch.message_bus.models.channel import Channel
 from stock_watch.message_bus.models.message import Message
 
 
-
 class RedditScraper(Scraper):
 
     def __init__(self):
         self._running = False
         self._reddit_api = reddit_api.RedditAPI(site_name="stock_watch_bot")
-        self._message_bus = message_bus.MessageBus()
+        self._message_bus = stock_watch.message_bus.get_instance()
         logging.info(self._reddit_api.user.me())
 
     def start(self):
@@ -30,7 +29,7 @@ class RedditScraper(Scraper):
         followed_subreddits = self._get_followed_subreddit_list()
         while self._running:
             sleep(1)
-            stock_watch.message_bus.publish(
+            self._message_bus.publish(
                 message_bus.Publish(
                     channel=Channel.RESEARCH,
                     message=Message(

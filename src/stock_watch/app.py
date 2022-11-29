@@ -21,7 +21,7 @@ class StockWatch:
         logging.info('Starting StockWatch')
 
         # Start the message bus
-        self._message_bus = stock_watch.message_bus
+        self._message_bus = stock_watch.message_bus.get_instance()
         self._message_bus.start()
 
         # Subscribe to all message types for testing.
