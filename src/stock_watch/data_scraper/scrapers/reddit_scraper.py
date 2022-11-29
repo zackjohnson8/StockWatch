@@ -4,6 +4,9 @@ from .scraper import Scraper
 from ..apis import reddit_api
 import src.stock_watch.message_bus.message_bus as message_bus
 import stock_watch
+from stock_watch.message_bus.models.channel import Channel
+from stock_watch.message_bus.models.message import Message
+
 
 
 class RedditScraper(Scraper):
@@ -27,7 +30,15 @@ class RedditScraper(Scraper):
         followed_subreddits = self._get_followed_subreddit_list()
         while self._running:
             sleep(1)
-            stock_watch.service_bus.publish(message_bus.MessageTypes.ANALYSIS, f"Followed subreddits: {followed_subreddits}")
+            stock_watch.message_bus.publish(
+                message_bus.Publish(
+                    channel=Channel.RESEARCH,
+                    message=Message(
+                        header="reddit",
+                        data_model="Hello World!"
+                    )
+                )
+            )
 
     def _get_followed_subreddit_list(self):
         return self._reddit_api.user.subreddits(limit=None)

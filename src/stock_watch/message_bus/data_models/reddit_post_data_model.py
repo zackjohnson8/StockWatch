@@ -1,0 +1,2 @@
+class RedditPostDataModel(object):
+    pass
