@@ -1,27 +1,59 @@
-from typing import Any
-from .models.types import MessageTypes
+import multiprocessing
+import dill as pickle
+
+from .message_bus_process import MessageBusProcess
+from .models.subscription import Subscription
+from .models.publish import Publish
+from .message_bus_service import MessageBusService
+
 
 class MessageBus(object):
-    _subscriptions = None
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        """
+        Get the singleton instance of the message bus.
+        :return:
+        """
+        if MessageBus.__instance is None:
+            MessageBus()
+        return MessageBus.__instance
 
     def __init__(self):
-        self._subscriptions = []
+        """
+        A message bus to handle subscriptions and publishes.
+        """
+        if MessageBus.__instance is None:
+            MessageBus.__instance = self
+            self._service = MessageBusService()
+            self._parent_conn, self._child_conn = multiprocessing.Pipe(duplex=True)
+            self._queue_process = MessageBusProcess(target=self._service.start_listening_to_pipe,
+                                                    args=(self._child_conn,))
 
-    def subscribe(self, message_type: MessageTypes, callback: ()):
-        self._subscriptions.append({message_type: callback})
+    def start(self):
+        """
+        Start the message bus process.
+        :return:
+        """
+        if not self._queue_process.is_alive():
+            self._queue_process.start()
 
-    def publish(self, message_type: MessageTypes, message: Any):
-        self._send_message_to_subscribers(message_type, message)
+    def subscribe(self, subscriptions: [Subscription]):
+        """
+        Subscribe to a channel.
+        :param subscriptions: The list of subscription objects to add.
+        :return:
+        """
+        for subscription in subscriptions:
+            pickled = pickle.dumps(subscription)
+            self._parent_conn.send(pickled)
 
-    def _send_message_to_subscribers(self, message_type: MessageTypes, message: Any):
-        for subscription in self._subscriptions:
-            if self._is_subscribed_to_message_type(subscription=subscription, message_type=message_type):
-                self._call_subscription_callback(subscription=subscription, message=message)
-
-    def _is_subscribed_to_message_type(self, subscription: {}, message_type: MessageTypes):
-        return list(subscription.keys())[0].value == message_type.value
-
-
-    def _call_subscription_callback(self, subscription: {}, message: Any):
-        callback = list(subscription.values())[0]
-        callback(message)
+    def publish(self, publish: Publish):
+        """
+        Publish a message to subscribers.
+        :param publish: The publish message to send to subscribers.
+        :return:
+        """
+        pickled = pickle.dumps(publish)
+        self._parent_conn.send(pickled)

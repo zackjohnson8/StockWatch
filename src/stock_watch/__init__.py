@@ -21,4 +21,4 @@ __all__ = [docker, database, stockbroker, data_scraper, StockWatch, ArgumentPars
 STOCKBROKER_CREDENTIALS = get_stockbroker_configs()
 DATABASE_CREDENTIALS = get_database_configs()
 
-service_bus = MessageBus()
+message_bus = MessageBus()

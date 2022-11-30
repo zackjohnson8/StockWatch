@@ -1,15 +1,18 @@
-import multiprocessing
+import time
+
 import helpers
 import docker
 import data_scraper
-import stockbroker
 import logging
-import message_bus
 import stock_watch
+from stock_watch.message_bus.models.channel import Channel
+from stock_watch.message_bus.models.subscription import Subscription
+
 
 class StockWatch:
 
     def __init__(self):
+        self._message_bus = None
         self.data_scraper_service = None
         self.stockbroker_service = None
         self.ds_service = None
@@ -17,11 +20,16 @@ class StockWatch:
     def run(self):
         logging.info('Starting StockWatch')
 
+        # Start the message bus
+        self._message_bus = stock_watch.message_bus.get_instance()
+        self._message_bus.start()
+
         # Subscribe to all message types for testing.
-        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.RESEARCH, self.test)
-        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.ANALYSIS, self.test)
-        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.TRADING, self.test)
-        stock_watch.service_bus.subscribe(message_bus.models.types.MessageTypes.DATABASE, self.test)
+        subscriptions = [Subscription(Channel.RESEARCH, self.on_research_message),
+                         Subscription(Channel.TRADING, self.on_trading_message),
+                         Subscription(Channel.ANALYSIS, self.on_analysis_message),
+                         Subscription(Channel.DATABASE, self.on_database_message)]
+        self._message_bus.subscribe(subscriptions)
 
         # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
@@ -46,17 +54,30 @@ class StockWatch:
         # Stockbroker
         # TODO: Rework this service to reflect the addition of data_scraping. This
         #  service will probably only be used for trading and monitoring stocks that are actively being traded.
-        from stock_watch import STOCKBROKER_CREDENTIALS, DATABASE_CREDENTIALS
-        self.stockbroker_service = stockbroker.services.StockbrokerService(
-            stockbroker_credentials=STOCKBROKER_CREDENTIALS,
-            database_credentials=DATABASE_CREDENTIALS
-        )
-        stock_watch_process = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
-        stock_watch_process.start()
-        logging.info('Started stock watch service')
+        # from stock_watch import STOCKBROKER_CREDENTIALS, DATABASE_CREDENTIALS
+        # self.stockbroker_service = stockbroker.services.StockbrokerService(
+        #     stockbroker_credentials=STOCKBROKER_CREDENTIALS,
+        #     database_credentials=DATABASE_CREDENTIALS
+        # )
+        # stock_watch_process = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
+        # stock_watch_process.start()
+        # logging.info('Started stock watch service')
 
-        # Join the services back
-        logging.info('StockWatch has stopped')
+        while True:
+            time.sleep(1)
 
-    def test(self, message):
-        print(message)
+    # noinspection PyMethodMayBeStatic
+    def on_research_message(self, message):
+        logging.info('Received research message: {}'.format(message))
+
+    # noinspection PyMethodMayBeStatic
+    def on_analysis_message(self, message):
+        logging.info('Received analysis message: {}'.format(message))
+
+    # noinspection PyMethodMayBeStatic
+    def on_trading_message(self, message):
+        logging.info('Received trading message: {}'.format(message))
+
+    # noinspection PyMethodMayBeStatic
+    def on_database_message(self, message):
+        logging.info('Received database message: {}'.format(message))
