@@ -9,7 +9,7 @@ class Message(object):
     def __init__(self, header: str, data_model: Any):
         """
         :param header: The header of the message. This is used to identify the type of message.
-        :param data: The data should be
+        :param data_model: The data model of the message.
         """
         self.header = header
         self.data_model = data_model

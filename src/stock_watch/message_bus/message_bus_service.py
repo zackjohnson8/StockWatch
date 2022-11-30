@@ -16,17 +16,30 @@ class MessageBusService(object):
         self._subscriptions = []
 
     def _subscribe(self, subscription: Subscription):
-        # Add subscription to the list of subscriptions
+        """
+        Subscribe to a channel.
+        :param subscription: The subscription to add.
+        :return:
+        """
         self._subscriptions.append(subscription)
 
     def _publish(self, publish: Publish):
-        # Add the publish to the queue
+        """
+        Publish a message to subscribers.
+        :param publish: The publish message to send to subscribers.
+        :return:
+        """
         for subscription in self._subscriptions:
             if subscription.channel == publish.channel:
                 callback = subscription.callback
                 callback(message=publish.message)
 
     def start_listening_to_pipe(self, conn):
+        """
+        Start listening to the pipe connection for subscriptions and publishes.
+        :param conn: The pipe connection to listen to.
+        :return:
+        """
         # TODO: Implement concurrency
         while True:
             if conn.poll():
@@ -49,6 +62,11 @@ class MessageBusService(object):
                     self._publish(publish=publish)
 
     def _send_message_to_subscribers(self, publish: Publish):
+        """
+        Send a publish message to all subscribers that are subscribed to the publish channel.
+        :param publish: The publish message to send to subscribers.
+        :return:
+        """
         for subscription in self._subscriptions:
             if subscription.channel == publish.channel:
                 subscription.callback(publish.message)
