@@ -14,6 +14,20 @@ https://stackoverflow.com/questions/18276951/how-do-i-stop-git-from-tracking-any
 * ```./src/stock_watch/startup_config.yml``` - This file contains the configuration for TDAmeritrade API
 * ```./src/stock_watch/data_scraper/configs/praw.ini``` - This file contains the configuration for Reddit API
 
+### Running
+Fork and clone your project to a local directory of your choosing.
+#### Setup your virtual environment
+Open the newly cloned /StockWatch directory in your terminal and run the following commands:
+```python3 -m venv venv```
+```source venv/bin/activate```
+
+#### Install dependencies
+```pip install -r requirements.txt```
+
+#### Run the application
+To run the application, run the following command:
+```python3 -m src.stock_watch```
+
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any 
 contributions you make are greatly appreciated.
