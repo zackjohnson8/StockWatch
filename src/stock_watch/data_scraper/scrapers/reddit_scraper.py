@@ -3,9 +3,9 @@ from time import sleep
 from .scraper import Scraper
 from ..apis import reddit_api
 import src.stock_watch.message_bus.message_bus as message_bus
-import stock_watch
-from stock_watch.message_bus.models.channel import Channel
-from stock_watch.message_bus.models.message import Message
+import src.stock_watch as stock_watch
+from src.stock_watch.message_bus.models.channel import Channel
+from src.stock_watch.message_bus.models.message import Message
 
 
 class RedditScraper(Scraper):

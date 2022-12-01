@@ -1,12 +1,12 @@
 import time
 
-import helpers
-import docker
-import data_scraper
+from . import helpers
+from . import docker
+from . import data_scraper
 import logging
-import stock_watch
-from stock_watch.message_bus.models.channel import Channel
-from stock_watch.message_bus.models.subscription import Subscription
+import src.stock_watch as stock_watch
+from src.stock_watch.message_bus.models.channel import Channel
+from src.stock_watch.message_bus.models.subscription import Subscription
 
 
 class StockWatch:
