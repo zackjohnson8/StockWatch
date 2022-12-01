@@ -1,4 +1,4 @@
-from stock_watch.message_bus.models import Publish
+from src.stock_watch.message_bus.models import Publish
 
 
 class MessageQueue:

@@ -1,8 +1,8 @@
 import os
 import yaml
 import sys
-import stockbroker
-import database
+from . import stockbroker
+from . import database
 import logging
 
 

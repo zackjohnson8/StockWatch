@@ -1,8 +1,8 @@
 from multiprocessing import freeze_support
 
 from src.stock_watch.app import StockWatch
-import helpers
-import logger
+from . import helpers
+from . import logger
 
 
 def main():
