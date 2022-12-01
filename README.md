@@ -18,15 +18,21 @@ https://stackoverflow.com/questions/18276951/how-do-i-stop-git-from-tracking-any
 Fork and clone your project to a local directory of your choosing.
 #### Setup your virtual environment
 Open the newly cloned /StockWatch directory in your terminal and run the following commands:
-```python3 -m venv venv```
-```source venv/bin/activate```
+```sh
+python3 -m venv venv
+source venv/bin/activate
+```
 
 #### Install dependencies
-```pip install -r requirements.txt```
+```sh
+pip install -r requirements.txt
+```
 
 #### Run the application
 To run the application, run the following command:
-```python3 -m src.stock_watch```
+```sh
+python3 -m src.stock_watch
+```
 
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any 
