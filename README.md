@@ -14,6 +14,10 @@ https://stackoverflow.com/questions/18276951/how-do-i-stop-git-from-tracking-any
 * ```./src/stock_watch/startup_config.yml``` - This file contains the configuration for TDAmeritrade API
 * ```./src/stock_watch/data_scraper/configs/praw.ini``` - This file contains the configuration for Reddit API
 
+(Not sure how to get the TDAmeritrade API and Reddit API values? Follow the links below)
+* https://developer.tdameritrade.com/content/getting-started
+* https://github.com/reddit-archive/reddit/wiki/API
+
 ### Running
 Fork and clone your project to a local directory of your choosing.
 #### Setup your virtual environment
