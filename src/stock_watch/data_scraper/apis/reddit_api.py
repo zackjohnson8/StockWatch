@@ -45,6 +45,7 @@ class RedditAPI(object):
             (default: ``None``).
         """
         self._config = config.Config()
+
         self._config.copy_praw_ini_file_to_platform_folder()
 
         self._reddit_api = praw.Reddit(
@@ -55,10 +56,3 @@ class RedditAPI(object):
             token_manager=token_manager,
             **config_settings,
         )
-        logging.info(f"Reddit API initialized: {self._reddit_api.user.me()}")
-
-        self._user = self._reddit_api.user
-
-    @property
-    def user(self):
-        return self._user
