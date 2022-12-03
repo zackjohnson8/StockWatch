@@ -45,6 +45,10 @@ class RedditAPI(object):
             (default: ``None``).
         """
         self._config = config.Config()
+        # Validate that the praw.ini has site_name and the required fields
+        if site_name:
+            if not self._config.validate_site_name(site_name):
+                return
 
         self._config.copy_praw_ini_file_to_platform_folder()
 
@@ -56,3 +60,9 @@ class RedditAPI(object):
             token_manager=token_manager,
             **config_settings,
         )
+
+        self._user = self._reddit_api.user
+
+    @property
+    def user(self):
+        return self._user
