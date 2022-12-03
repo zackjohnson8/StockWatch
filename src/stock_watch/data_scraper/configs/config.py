@@ -45,6 +45,8 @@ class Config(object):
             logging.error(f"Please add the required fields to the praw.ini file")
             return False
 
+        return True
+
     def has_required_fields(self, configs):
         required_fields = ["client_id", "client_secret", "username", "password", "user_agent"]
         for field in required_fields:
