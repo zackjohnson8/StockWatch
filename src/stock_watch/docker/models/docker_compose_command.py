@@ -1,12 +1,10 @@
-
 from typing import Optional, List, Dict, Any
+from .docker_compose_command_option import DockerComposeCommandOption
 
-from .docker_compose_command_type import DockerComposeCommandType
 
-
-class DockerComposeCommandModel:
+class DockerComposeCommand:
     def __init__(self,
-                 command: DockerComposeCommandType,
+                 command: DockerComposeCommandOption,
                  files: Optional[List[str]] = None,
                  profiles: Optional[List[str]] = None,
                  parent_options: Optional[Dict[str, Any]] = None,
@@ -33,6 +31,10 @@ class DockerComposeCommandModel:
         return self.__class__.__name__
 
     def cli_format(self):
+        """
+        :return: A string of the docker compose command in the format of: docker-compose {files} {profiles}
+        {parent_options} {command} {child_options} {args}
+        """
         return f'docker-compose {self._format_files()} {self._format_profiles()} {self._format_parent_options()} ' \
                f'{self.command.value} {self._format_child_options()} {self._format_args()}'
 
