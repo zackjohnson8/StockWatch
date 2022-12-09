@@ -1,6 +1,6 @@
 from enum import Enum
 
 
-class CLIType(Enum):
+class Program(Enum):
     DOCKER = 'docker'
     DOCKER_COMPOSE = 'docker-compose'

@@ -33,8 +33,8 @@ class StockWatch:
 
         # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
-        docker_compose_command = docker.models.DockerComposeCommandModel(
-            command=docker.models.DockerComposeCommandType.UP,
+        docker_compose_command = docker.models.DockerComposeCommand(
+            command=docker.models.DockerComposeCommandOption.UP,
             files=[docker_directory],
             child_options={'--build': None, '--force-recreate': None, '--detach': None}
         )

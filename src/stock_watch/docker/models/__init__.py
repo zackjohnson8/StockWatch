@@ -1,12 +1,10 @@
 from __future__ import absolute_import
 
 # Files
-from .cli_type import CLIType
-from .docker_command_model import DockerCommandModel
-from .docker_command_type import DockerCommandType
-from .docker_compose_command_model import DockerComposeCommandModel
-from .docker_compose_command_type import DockerComposeCommandType
-from .docker_credential_model import DockerCredentialModel
+from .program import Program
+from .docker_command import DockerCommand
+from .docker_command_option import DockerCommandOption
+from .docker_compose_command import DockerComposeCommand
+from .docker_compose_command_option import DockerComposeCommandOption
 
-__all__ = [CLIType, DockerCommandModel, DockerCommandType, DockerComposeCommandModel, DockerComposeCommandType,
-           DockerCredentialModel]
+__all__ = [Program, DockerCommand, DockerCommandOption, DockerComposeCommand, DockerComposeCommandOption]

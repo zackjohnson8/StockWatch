@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class DockerComposeCommandType(Enum):
+class DockerComposeCommandOption(Enum):
     BUILD = 'build'
     CONVERT = 'convert'
     CP = 'cp'

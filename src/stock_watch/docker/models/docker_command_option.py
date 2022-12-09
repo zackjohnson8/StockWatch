@@ -1,6 +1,6 @@
 from enum import Enum
 
 
-class DockerCommandType(Enum):
+class DockerCommandOption(Enum):
     LOGIN = 'login'
     LOGOUT = 'logout'

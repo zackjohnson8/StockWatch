@@ -1,12 +1,10 @@
-
 from typing import Optional, List, Dict, Any
+from .docker_compose_command_option import DockerComposeCommandOption
 
-from .docker_compose_command_type import DockerComposeCommandType
 
-
-class DockerComposeCommandModel:
+class DockerComposeCommand:
     def __init__(self,
-                 command: DockerComposeCommandType,
+                 command: DockerComposeCommandOption,
                  files: Optional[List[str]] = None,
                  profiles: Optional[List[str]] = None,
                  parent_options: Optional[Dict[str, Any]] = None,
