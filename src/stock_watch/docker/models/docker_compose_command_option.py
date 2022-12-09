@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class DockerComposeCommandOption(Enum):
+    """
+    The enum selection of docker compose commands.
+    """
     BUILD = 'build'
     CONVERT = 'convert'
     CP = 'cp'

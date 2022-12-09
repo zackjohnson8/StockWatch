@@ -31,6 +31,10 @@ class DockerComposeCommand:
         return self.__class__.__name__
 
     def cli_format(self):
+        """
+        :return: A string of the docker compose command in the format of: docker-compose {files} {profiles}
+        {parent_options} {command} {child_options} {args}
+        """
         return f'docker-compose {self._format_files()} {self._format_profiles()} {self._format_parent_options()} ' \
                f'{self.command.value} {self._format_child_options()} {self._format_args()}'
 
