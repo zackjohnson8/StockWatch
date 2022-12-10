@@ -7,12 +7,6 @@ from ..configs import config
 
 
 class RedditAPI(praw.Reddit):
-    """
-    Praw Reddit API Decorator. This class is used to build functionality on top of the praw API. Most of the
-    functionality is built using a 1-to-1 mapping of the Praw Reddit API which can be found at
-    https://praw.readthedocs.io/en/stable/code_overview/reddit_instance.html
-    """
-
     def __init__(self,
                  site_name: Optional[str] = None,
                  *,
@@ -22,6 +16,7 @@ class RedditAPI(praw.Reddit):
                  token_manager: Optional[BaseTokenManager] = None,
                  **config_settings: Optional[Union[str, bool, int]],
                  ):
+
         self._config = config.Config()
         # Validate that the praw.ini has site_name and the required fields
         if site_name:

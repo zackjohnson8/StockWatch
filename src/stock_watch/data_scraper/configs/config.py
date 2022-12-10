@@ -34,6 +34,11 @@ class Config(object):
             logging.error(f"Unsupported platform {platform}")
 
     def validate_site_name(self, site_name) -> bool:
+        """
+        Validate that the site_name exists in the praw.ini file and that the required fields are filled out
+        :param site_name: The site_name to validate
+        :return: True if the site_name exists and the required fields are filled out, False otherwise
+        """
         config_parser = configparser.ConfigParser()
         config_parser.read(self._praw_file_dir)
         if site_name not in config_parser.sections():
@@ -48,6 +53,11 @@ class Config(object):
         return True
 
     def has_required_fields(self, configs):
+        """
+        Checks if the configs has the required fields
+        :param configs: The configs to check
+        :return:
+        """
         required_fields = ["client_id", "client_secret", "username", "password", "user_agent"]
         for field in required_fields:
             config_value = configs[field]
@@ -56,4 +66,10 @@ class Config(object):
         return True
 
     def starts_with(self, value, start):
+        """
+        Checks if the value starts with the start
+        :param value: The parameter to check the first value/character of
+        :param start: The item to check if the value starts with
+        :return:
+        """
         return value[0] == start
