@@ -1,3 +1,4 @@
+import json
 import time
 
 from . import helpers
@@ -68,7 +69,11 @@ class StockWatch:
 
     # noinspection PyMethodMayBeStatic
     def on_research_message(self, message):
-        logging.info('Received research message: {}'.format(message))
+        message_dict = json.loads(message.data_model)
+        logging.info('Received research message: {author} posted {title} from {url}'.format(
+            author=message_dict['name'],
+            title=message_dict['title'],
+            url=message_dict['url']))
 
     # noinspection PyMethodMayBeStatic
     def on_analysis_message(self, message):

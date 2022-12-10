@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-# Files
-from .reddit_post_data_model import RedditPostDataModel
+# Packages
+from . import reddit
 
-__all__ = [RedditPostDataModel]
+__all__ = [reddit]

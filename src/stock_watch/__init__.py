@@ -17,8 +17,8 @@ from .message_bus import MessageBus
 __all__ = [docker, database, stockbroker, data_scraper, StockWatch, ArgumentParser, read_yaml_file, find_file,
            get_stockbroker_configs, get_database_configs, get, setup_logging, message_bus]
 
+message_bus = MessageBus()
+
 # Constants
 STOCKBROKER_CREDENTIALS = get_stockbroker_configs()
 DATABASE_CREDENTIALS = get_database_configs()
-
-message_bus = MessageBus()
