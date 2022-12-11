@@ -71,8 +71,6 @@ class RedditScraper(Scraper):
             while len(posts_retrieved_list) > 1000:
                 posts_retrieved_list.pop(0)
 
-
-
     def _get_followed_subreddit_list(self):
         """
         Gets the list of subreddits that the RedditScraper is following.
