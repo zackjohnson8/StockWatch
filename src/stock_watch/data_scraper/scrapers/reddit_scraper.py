@@ -52,12 +52,12 @@ class RedditScraper(Scraper):
         :return:
         """
         self._running = True
-        followed_subreddits = self._get_followed_subreddit_list()
         while self._running:
-            sleep(1)
-            # I want all new stories that are being posted to the subreddits that I am following
+            sleep(5)
+            followed_subreddits = self._get_followed_subreddit_list()
             for subreddit in followed_subreddits:
-                for submission in subreddit.new(limit=10):
+                new_submissions = subreddit.new(limit=10)
+                for submission in new_submissions:
                     if not submission.stickied:
                         reddit_post_data = RedditSubmission(reddit=self._reddit_api, submission_id=submission.id)
                         message = Message(
