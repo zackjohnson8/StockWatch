@@ -53,19 +53,24 @@ class RedditScraper(Scraper):
         """
         logging.info("Starting the retrieval loop for the RedditScraper...")
         self._running = True
+        posts_retrieved_list = []
         while self._running:
             sleep(5)
             followed_subreddits = self._get_followed_subreddit_list()
             for subreddit in followed_subreddits:
                 new_submissions = subreddit.new(limit=10)
                 for submission in new_submissions:
-                    if not submission.stickied:
+                    if submission.name not in posts_retrieved_list:
                         reddit_post_data = RedditSubmission(reddit=self._reddit_api, submission_id=submission.id)
                         message = Message(
                             header="reddit_submission",
                             data_model=reddit_post_data.to_json()
                         )
                         self._message_bus.publish(Publish(channel=Channel.RESEARCH, message=message))
+                        posts_retrieved_list.append(submission.name)
+            # Remove any old posts from the posts_retrieved_list after 1000
+            while len(posts_retrieved_list) > 1000:
+                posts_retrieved_list.pop(0)
 
     def _get_followed_subreddit_list(self):
         """
