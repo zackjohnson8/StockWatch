@@ -22,3 +22,5 @@ message_bus = MessageBus()
 # Constants
 STOCKBROKER_CREDENTIALS = get_stockbroker_configs()
 DATABASE_CREDENTIALS = get_database_configs()
+
+logger.setup_logging(helpers.find_file('logging_config.yml', './'))
