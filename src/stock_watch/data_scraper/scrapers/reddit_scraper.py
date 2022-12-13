@@ -51,6 +51,7 @@ class RedditScraper(Scraper):
         Starts the retrieval loop for the RedditScraper.
         :return:
         """
+        logging.info("Starting the retrieval loop for the RedditScraper...")
         self._running = True
         while self._running:
             sleep(5)
