@@ -20,7 +20,7 @@ class ScraperProcess(object):
         :return:
         """
         self._running = True
-        self._process = multiprocessing.Process(target=lambda: self._scraper.start())
+        self._process = multiprocessing.Process(target=self._scraper.start())
         self._process.start()
         logging.info(f"Started {self._scraper.__class__.__name__}")
 

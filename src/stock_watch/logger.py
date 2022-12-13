@@ -6,8 +6,8 @@ import logging.config
 DEFAULT_LEVEL = logging.INFO
 
 # Create logs folder
-if not os.path.exists('./stock_watch/logs'):
-    os.makedirs('./stock_watch/logs')
+if not os.path.exists('./src/stock_watch/logs'):
+    os.makedirs('./src/stock_watch/logs')
 
 
 def get(name):

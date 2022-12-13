@@ -6,7 +6,6 @@ from . import logger
 
 
 def main():
-    logger.setup_logging(helpers.find_file('logging_config.yml', './'))
     stock_watch = StockWatch()
     stock_watch.run()
 
