@@ -16,7 +16,6 @@ class StockWatch:
         self._message_bus = None
         self.data_scraper_service = None
         self.stockbroker_service = None
-        self.ds_service = None
 
     def run(self):
         logging.info('Starting StockWatch')

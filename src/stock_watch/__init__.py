@@ -20,7 +20,15 @@ __all__ = [docker, database, stockbroker, data_scraper, StockWatch, ArgumentPars
 message_bus = MessageBus()
 
 # Constants
-STOCKBROKER_CREDENTIALS = get_stockbroker_configs()
-DATABASE_CREDENTIALS = get_database_configs()
+try:
+    STOCKBROKER_CREDENTIALS = get_stockbroker_configs()
+    DATABASE_CREDENTIALS = get_database_configs()
+except FileNotFoundError:
+    STOCKBROKER_CREDENTIALS = None
+    DATABASE_CREDENTIALS = None
 
-logger.setup_logging(helpers.find_file('logging_config.yml', './'))
+try:
+    logging_config_directory = helpers.find_file('logging_config.yml', './')
+    logger.setup_logging(logging_config_directory)
+except FileNotFoundError:
+    logging_config = None

@@ -4,18 +4,41 @@ from . import stockbroker
 from . import database
 
 
-def read_yaml_file(directory):
+def validate_file(name, path=None):
     """
-    Read a yaml file and return the contents as a dictionary.
-    :param directory: The directory of the yaml file to be read.
+    Validate that a file exists.
+    :param name: The name of the file.
+    :param path: The path to the file.
     :return:
     """
-    with open(directory, 'r') as stream:
-        try:
-            yaml_data = yaml.safe_load(stream)
-            return yaml_data
-        except yaml.YAMLError as exc:
-            print(exc)
+    if path:
+        file = os.path.join(path, name)
+    else:
+        file = name
+
+    return os.path.exists(file)
+
+
+def read_yaml_file(name, path=None):
+    """
+    Read a yaml file and return the contents as a dictionary.
+    :param name: The name of the yaml file.
+    :param path: The path to the yaml file. If not provided, the current working directory will be used.
+    """
+    if path:
+        file = os.path.join(path, name)
+    else:
+        file = name
+
+    if validate_file(name, path):
+        with open(file, 'r') as stream:
+            try:
+                yaml_data = yaml.safe_load(stream)
+                return yaml_data
+            except yaml.YAMLError as exc:
+                print(exc)
+    else:
+        raise FileNotFoundError('The file {} does not exist.'.format(name))
 
 
 def find_file(name, path):
@@ -28,6 +51,8 @@ def find_file(name, path):
     for root, dirs, files in os.walk(path):
         if name in files:
             return os.path.join(root, name)
+
+    raise FileNotFoundError('The file {} does not exist.'.format(name))
 
 
 def get_stockbroker_configs():
