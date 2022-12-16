@@ -8,6 +8,6 @@ from . import data_models
 from .message_bus import MessageBus
 from .message_queue import MessageQueue
 from .message_bus_process import MessageBusProcess
-from .message_bus_service import MessageBusService
+from .message_bus_handler import MessageBusHandler
 
-__all__ = [MessageBus, MessageQueue, models, data_models, MessageBusProcess, MessageBusService]
+__all__ = [MessageBus, MessageQueue, models, data_models, MessageBusProcess, MessageBusHandler]

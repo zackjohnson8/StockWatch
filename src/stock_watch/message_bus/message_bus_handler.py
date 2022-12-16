@@ -5,7 +5,7 @@ from src.stock_watch.message_bus.models.publish import Publish
 from .message_queue import MessageQueue
 
 
-class MessageBusService(object):
+class MessageBusHandler(object):
     def __init__(self):
         """
         Use this class as a process service with a pipe connection to the parent process. Subscriptions and publishes

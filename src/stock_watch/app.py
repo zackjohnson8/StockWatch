@@ -21,14 +21,14 @@ class StockWatch:
         logging.info('Starting StockWatch')
         # Start the message bus
         self._message_bus = stock_watch.message_bus.get_instance()
-        self._message_bus.start()
 
         # Subscribe to all message types for testing.
         subscriptions = [Subscription(Channel.RESEARCH, self.on_research_message),
                          Subscription(Channel.TRADING, self.on_trading_message),
                          Subscription(Channel.ANALYSIS, self.on_analysis_message),
                          Subscription(Channel.DATABASE, self.on_database_message)]
-        self._message_bus.subscribe(subscriptions)
+        for subscription in subscriptions:
+            self._message_bus.subscribe(subscription)
 
         # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
