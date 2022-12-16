@@ -1,52 +1,71 @@
 .. image:: https://codecov.io/gh/zackjohnson8/StockWatch/branch/master/graph/badge.svg?token=ZAOUINTOA8
  :target: https://codecov.io/gh/zackjohnson8/StockWatch
 
-<a name="readme-top"></a>
-## About The Project
+=================
+About The Project
+=================
+
 StockWatch is a web scraping analyzer which trades stocks based on public sentiment, or I hope it will be soon. The 
 technology being used is docker to run a database container, PostgreSQL database to store data, TDAmeritrade API to 
 handle automated trading, and Flask to run the web server (Will probably remove in the future as this 
 application becomes more personal single use. Previously it was being built as a back-end to a front-end application, 
 that is no longer the case).
 
-## Getting Started
-### Configuration
+===============
+Getting Started
+===============
+
+Configuration
+=============
+
 Modify the configuration files listed below. The information changed in these files should not be commited and are 
 sensitive. Note: until a better solution is implemented, follow this links implementation of --assume-unchanged 
 https://stackoverflow.com/questions/18276951/how-do-i-stop-git-from-tracking-any-changes-to-a-file-from-this-commit-forward
-* ```./src/stock_watch/startup_config.yml``` - This file contains the configuration for TDAmeritrade API
-* ```./src/stock_watch/data_scraper/configs/praw.ini``` - This file contains the configuration for Reddit API
+
+    * ./src/stock_watch/startup_config.yml - This file contains the configuration for TDAmeritrade API
+    * ./src/stock_watch/data_scraper/configs/praw.ini - This file contains the configuration for Reddit API
 
 (Not sure how to get the TDAmeritrade API and Reddit API values? Follow the links below)
-* https://developer.tdameritrade.com/content/getting-started
-* https://github.com/reddit-archive/reddit/wiki/API
+    * https://developer.tdameritrade.com/content/getting-started
+    * https://github.com/reddit-archive/reddit/wiki/API
 
-### Running
+Running
+=======
 Fork and clone your project to a local directory of your choosing.
-#### Setup your virtual environment
-Open the newly cloned /StockWatch directory in your terminal and run the following commands:
-```sh
-python3 -m venv venv
-source venv/bin/activate
-```
 
-#### Install dependencies
-```sh
-pip install -r requirements.txt
-```
+Setup your virtual environment
+------------------------------
 
-#### Run the application
-To run the application, run the following command:
-```sh
-python3 -m src.stock_watch
-```
+Open the newly cloned /StockWatch directory in your terminal and run the following commands::
 
-## Contributing
+    $ python3 -m venv venv
+    $ source venv/bin/activate
+
+
+Install dependencies
+--------------------
+
+Download the dependecies from the requirements.txt file::
+
+    $ pip install -r requirements.txt
+
+
+Run the application
+-------------------
+
+To run the application, run the following command::
+
+    $ python3 -m src.stock_watch
+
+
+============
+Contributing
+============
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any 
 contributions you make are greatly appreciated.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also 
-simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
+simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!::
 
     Fork the Project
     Create your Feature Branch (git checkout -b [name_of_your_new_branch])
@@ -54,8 +73,12 @@ simply open an issue with the tag "enhancement". Don't forget to give the projec
     Push to the Branch (git push origin [name_of_your_new_branch])
     Open a Pull Request
 
-## License
+=======
+License
+=======
 Distributed under the MIT License. See the `LICENSE` file for more information.
 
-## Contact
+=======
+Contact
+=======
 Zachary Johnson - @zackjohnson8 - zackjohnson8@gmail.com
