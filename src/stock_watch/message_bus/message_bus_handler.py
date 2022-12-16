@@ -32,7 +32,7 @@ class MessageBusHandler(object):
         for subscription in self._subscriptions:
             if subscription.channel == publish.channel:
                 callback = subscription.callback
-                callback(message=publish.message)
+                callback(publish.message)
 
     def start_listening_to_pipe(self, conn):
         """
