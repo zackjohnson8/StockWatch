@@ -8,5 +8,5 @@ def main():
 
 
 if __name__ == '__main__':
-    freeze_support()
+    # freeze_support() # Remove this line until future need for freezing for executable creation.
     main()
