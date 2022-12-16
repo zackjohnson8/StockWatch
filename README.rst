@@ -1,3 +1,6 @@
+.. image:: https://codecov.io/gh/zackjohnson8/StockWatch/branch/master/graph/badge.svg?token=ZAOUINTOA8
+ :target: https://codecov.io/gh/zackjohnson8/StockWatch
+
 <a name="readme-top"></a>
 ## About The Project
 StockWatch is a web scraping analyzer which trades stocks based on public sentiment, or I hope it will be soon. The 
