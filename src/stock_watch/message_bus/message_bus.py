@@ -49,8 +49,8 @@ class MessageBus(object):
         :param subscription: A subscription to be notified if anything is published to the subscription channel.
         :return:
         """
-        if subscription.channel is None or subscription.callback is None:
-            raise Exception("Subscription channel and callback cannot be None.")
+        if not isinstance(subscription, Subscription):
+            raise Exception("The subscription must be a Subscription object.")
 
         # Save the subscription to the list of subscriptions to reference later
         self._subscriptions.append(subscription)
@@ -65,8 +65,8 @@ class MessageBus(object):
         :param publish: The published message to send to subscribers.
         :return:
         """
-        if publish.channel is None or publish.message is None:
-            raise Exception("Publish channel and message cannot be None.")
+        if not isinstance(publish, Publish):
+            raise Exception("The publish must be a Publish object.")
 
         pickled = pickle.dumps(publish)
         # Send the pickled publish object to the child process (message_handler)

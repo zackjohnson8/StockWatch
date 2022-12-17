@@ -1,7 +1,6 @@
-import time
-
+import json
 import pytest
-import mock
+
 from src.stock_watch.message_bus import MessageBus
 from src.stock_watch.message_bus.models import Publish
 from src.stock_watch.message_bus.models.subscription import Subscription
@@ -22,20 +21,9 @@ def test_WhenInvalidSubscriptionAdded_ExceptionIsRaised():
     # Create a message bus
     message_bus = MessageBus.get_instance()
 
-    # Create subscription options
-    subscription_without_channel = Subscription(channel=None, callback=print)
-    subscription_without_callback = Subscription(channel=Channel.RESEARCH, callback=None)
-    subscription_without_callback_and_channel = Subscription(channel=None, callback=None)
-
     # Test that an exception is raised when adding the subscription
     with pytest.raises(Exception):
-        message_bus.subscribe(subscription_without_callback)
-
-    with pytest.raises(Exception):
-        message_bus.subscribe(subscription_without_channel)
-
-    with pytest.raises(Exception):
-        message_bus.subscribe(subscription_without_callback_and_channel)
+        message_bus.subscribe(subscription="not a subscription")
 
 
 def test_WhenValidSubscriptionAdded_SubscriptionsUpdated():
@@ -56,22 +44,55 @@ def test_WhenInvalidPublishSent_ExceptionIsRaised():
     # Create a message bus
     message_bus = MessageBus.get_instance()
 
-    # Create publish options
-    publish_without_channel = Publish(channel=None, message="Test")
-    publish_without_message = Publish(channel=Channel.RESEARCH, message=None)
-    publish_without_channel_and_message = Publish(channel=None, message=None)
-
-    # Test that an exception is raised when adding the publish
+    # Test that an exception is raised when adding the publish method
     with pytest.raises(Exception):
-        message_bus.publish(publish_without_channel)
+        message_bus.publish(publish='not a publish')
 
+
+def test_CreateMessageWithValidInformation_IsSuccessful():
+    json_string = '{ "name":"John", "age":30, "city":"New York"}'
+    json_dict = json.loads(json_string)
+
+    # assert that the message is created successfully
+    message = Message(header='reddit_submission', data_model=json_dict)
+    assert message.header == 'reddit_submission'
+    assert message.data_model == json_dict
+
+
+#noinspection PyTypeChecker
+def test_CreateMessageWithInvalidInformation_ExceptionIsRaised():
+    # Test that an exception is raised when creating the message with invalid information
     with pytest.raises(Exception):
-        message_bus.publish(publish_without_message)
+        message = Message(header='reddit_submission', data_model='not a dict')
+        message1 = Message(header=123, data_model='not a dict')
+        message2 = Message(header=123, data_model={'test': 'test'})
+        print(message, message1, message2)
 
+def test_CreatePublishWithValidInformation_IsSuccessful():
+    # Create a message
+    json_string = '{ "name":"John", "age":30, "city":"New York"}'
+    json_dict = json.loads(json_string)
+    message = Message(header='reddit_submission', data_model=json_dict)
+
+    # assert that the publish is created successfully
+    publish = Publish(channel=Channel.RESEARCH, message=message)
+    assert publish.channel == Channel.RESEARCH
+    assert publish.message == message
+
+
+#noinspection PyTypeChecker
+def test_CreatePublishWithInvalidInformation_ExceptionIsRaised():
+    # Test that an exception is raised when creating the publish with invalid information
     with pytest.raises(Exception):
-        message_bus.publish(publish_without_channel_and_message)
+        publish = Publish(channel='not a channel', message='not a message')
+        publish1 = Publish(channel=Channel.RESEARCH, message='not a message')
+        publish2 = Publish(channel='not a channel', message=Message(header='reddit_submission', data_model={'test': 'test'}))
+        print(publish, publish1, publish2)
 
 
+# TODO: When multiprocess attempts to call the callback, it fails. This is because the callback is a function that is
+#  defined in the test file. The callback is not defined in the multiprocess file. This is a known issue with
+#  multiprocess.
 # def test_WhenMultipleSubscribersExist_AllSubscribersReceiveMessage():
 #     # Create a message bus
 #     message_bus = MessageBus.get_instance()
