@@ -23,7 +23,7 @@ class RedditScraper(Scraper):
             self.config = config
         self._running = False
         self._reddit_api = None
-        self._message_bus = None
+        self._message_bus = stock_watch.message_bus.get_instance()
         self.site_name = "stock_watch_bot"
 
 
@@ -50,11 +50,8 @@ class RedditScraper(Scraper):
             raise Exception("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
                             "site_name and required fields. Call validate_praw_ini_updated() to check if the praw.ini "
                             "file is configured correctly.")
-
-        if self._message_bus is None:
-            self._message_bus = stock_watch.message_bus.get_instance()
         logging.info("Starting RedditScraper")
-        self._reddit_api = reddit_api.RedditAPI(site_name=self.site_name)
+        self._reddit_api = reddit_api.RedditAPI(site_name=self.site_name, custom_config=self.config)
         self._running = True
         self._start_retrieval_loop()
 
