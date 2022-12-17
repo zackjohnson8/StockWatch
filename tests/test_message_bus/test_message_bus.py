@@ -63,10 +63,13 @@ def test_CreateMessageWithValidInformation_IsSuccessful():
 def test_CreateMessageWithInvalidInformation_ExceptionIsRaised():
     # Test that an exception is raised when creating the message with invalid information
     with pytest.raises(Exception):
-        message = Message(header='reddit_submission', data_model='not a dict')
-        message1 = Message(header=123, data_model='not a dict')
-        message2 = Message(header=123, data_model={'test': 'test'})
-        print(message, message1, message2)
+        Message(header='reddit_submission', data_model='not a dict')
+
+    with pytest.raises(Exception):
+        Message(header=123, data_model='not a dict')
+
+    with pytest.raises(Exception):
+        Message(header=123, data_model={'test': 'test'})
 
 def test_CreatePublishWithValidInformation_IsSuccessful():
     # Create a message
@@ -84,10 +87,13 @@ def test_CreatePublishWithValidInformation_IsSuccessful():
 def test_CreatePublishWithInvalidInformation_ExceptionIsRaised():
     # Test that an exception is raised when creating the publish with invalid information
     with pytest.raises(Exception):
-        publish = Publish(channel='not a channel', message='not a message')
-        publish1 = Publish(channel=Channel.RESEARCH, message='not a message')
-        publish2 = Publish(channel='not a channel', message=Message(header='reddit_submission', data_model={'test': 'test'}))
-        print(publish, publish1, publish2)
+        Publish(channel='not a channel', message='not a message')
+
+    with pytest.raises(Exception):
+        Publish(channel=Channel.RESEARCH, message='not a message')
+
+    with pytest.raises(Exception):
+        Publish(channel='not a channel', message=Message(header='reddit_submission', data_model={'test': 'test'}))
 
 
 # TODO: When multiprocess attempts to call the callback, it fails. This is because the callback is a function that is
