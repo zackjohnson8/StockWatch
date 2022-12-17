@@ -3,6 +3,7 @@ from time import sleep
 from .scraper import Scraper
 from ..apis import reddit_api
 from ..configs.config import Config
+from typing import Optional
 import src.stock_watch as stock_watch
 from src.stock_watch.message_bus.models.channel import Channel
 from src.stock_watch.message_bus.models.message import Message
@@ -12,11 +13,14 @@ from src.stock_watch.message_bus.data_models.reddit.reddit_submission import Red
 
 class RedditScraper(Scraper):
 
-    def __init__(self):
+    def __init__(self, config: Optional[Config] = None):
         """
         The RedditScraper is a scraper that scrapes data from Reddit. This uses the Reddit API provided from PRAW.
         """
-        self._config = Config()
+        if config is None:
+            self.config = Config()
+        else:
+            self.config = config
         self._running = False
         self._reddit_api = None
         self._message_bus = None
@@ -32,9 +36,11 @@ class RedditScraper(Scraper):
 
         logging.info("Starting RedditScraper")
         # Validate that the praw.ini has site_name and the required fields
-        if not self._config.validate_site_name(self.site_name):
-            logging.error("Failed to start the RedditScraper due to invalid praw.ini file")
+        if not self.config.validate_site_name(self.site_name) or not self.config.validate_site_fields(self.site_name):
+            logging.info("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
+                         "site_name and required fields.")
             return
+
         self._reddit_api = reddit_api.RedditAPI(site_name=self.site_name)
         self._running = True
         self._start_retrieval_loop()
@@ -64,7 +70,7 @@ class RedditScraper(Scraper):
                         reddit_post_data = RedditSubmission(reddit=self._reddit_api, submission_id=submission.id)
                         message = Message(
                             header="reddit_submission",
-                            data_model=reddit_post_data.to_json()
+                            data_model=reddit_post_data.to_dict()
                         )
                         self._message_bus.publish(Publish(channel=Channel.RESEARCH, message=message))
                         posts_retrieved_list.append(submission.name)

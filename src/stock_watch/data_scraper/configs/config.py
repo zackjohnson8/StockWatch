@@ -2,16 +2,20 @@ import logging
 import os
 import shutil
 import configparser
+from typing import Optional
 from sys import platform
 
 
 class Config(object):
-    def __init__(self):
+    def __init__(self, praw_file_dir: Optional[str] = None):
         """
         Config class
         """
-        self._working_dir = os.path.dirname(os.path.realpath(__file__))
-        self._praw_file_dir = os.path.join(self._working_dir, "praw.ini")
+        if praw_file_dir:
+            self._praw_file_dir = praw_file_dir
+        else:
+            self._working_dir = os.path.dirname(os.path.realpath(__file__))
+            self._praw_file_dir = os.path.join(self._working_dir, "praw.ini")
 
     def copy_praw_ini_file_to_platform_folder(self):
         """
@@ -44,12 +48,20 @@ class Config(object):
         if site_name not in config_parser.sections():
             logging.error("Please add a site named stock_watch_bot to the praw.ini file")
             return False
+        return True
 
+    def validate_site_fields(self, site_name) -> bool:
+        """
+        Validates that the site_name has the required fields filled out
+        :param site_name: The site_name to validate
+        :return: True if the site_name has the required fields filled out, False otherwise
+        """
+        config_parser = configparser.ConfigParser()
+        config_parser.read(self._praw_file_dir)
         configs = config_parser[site_name]
         if not self.has_required_fields(configs):
             logging.error(f"Please add the required fields to the praw.ini file")
             return False
-
         return True
 
     def has_required_fields(self, configs):

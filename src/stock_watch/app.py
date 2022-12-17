@@ -67,11 +67,10 @@ class StockWatch:
 
     # noinspection PyMethodMayBeStatic
     def on_research_message(self, message):
-        message_dict = json.loads(message.data_model)
         logging.info('Received research message: {author} posted {title} from {url}'.format(
-            author=message_dict['name'],
-            title=message_dict['title'],
-            url=message_dict['url']))
+            author=message.data_model['name'],
+            title=message.data_model['title'],
+            url=message.data_model['url']))
 
     # noinspection PyMethodMayBeStatic
     def on_analysis_message(self, message):

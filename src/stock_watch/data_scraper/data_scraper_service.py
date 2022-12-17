@@ -10,8 +10,8 @@ class DataScraperService(object):
         The DataScraperService class is used to manage a list of scrapers. Each scraper will retrieve data from
         whichever source it is designed to retrieve data from.
         """
-        self._process_manager = ProcessManager()
-        self._scraper_list = []
+        self.process_manager = ProcessManager()
+        self.scraper_list = []
 
     def add_scraper(self, scraper: Scraper):
         """
@@ -20,10 +20,10 @@ class DataScraperService(object):
         :return:
         """
         # Add scraper to the scraper list
-        self._scraper_list.append(scraper)
+        self.scraper_list.append(scraper)
         # Each scraper will have a process associated with it and added to the process manager
         s_process = ScraperProcess(scraper=scraper)
-        self._process_manager.add_process(process=s_process)
+        self.process_manager.add_process(process=s_process)
 
     def start_scrapers(self):
         """
@@ -32,4 +32,16 @@ class DataScraperService(object):
         """
         # Each scraper that was added to this class has a corresponding process created. Start all the processes in the
         # process manager.
-        self._process_manager.start_all_processes()
+        self.process_manager.start_all_processes()
+
+    def has_scraper(self, scraper: Scraper) -> bool:
+        """
+        Check if a scraper was added to the DataScraperService
+        :param scraper: The scraper to check
+        :return: True if the scraper is in the scraper list, False otherwise
+        """
+        for list_scraper in self.scraper_list:
+            if list_scraper == scraper:
+                return True
+
+        return False
