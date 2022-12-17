@@ -17,3 +17,7 @@ def test_CreateARedditScraperWithoutChangingPrawIniFile_InformUserItNeedsToBeUpd
 
     # Check that the data scraper service has the reddit scraper
     assert data_scraper_service.has_scraper(scraper=reddit_scraper) == True
+
+    # Assert that exception is raised when trying to start the data scraper service
+    with pytest.raises(Exception):
+        data_scraper_service.start_scrapers()

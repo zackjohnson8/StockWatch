@@ -26,21 +26,34 @@ class RedditScraper(Scraper):
         self._message_bus = None
         self.site_name = "stock_watch_bot"
 
+
+    def validate_praw_ini_updated(self) -> bool:
+        """
+        Validates that the praw.ini file has been updated with the correct credentials.
+        :return: True if the praw.ini file has been updated with the correct credentials, False otherwise.
+        """
+        # Validate that the praw.ini has site_name and the required fields
+        if not self.config.validate_site_name(self.site_name) or not self.config.validate_site_fields(self.site_name):
+            logging.info("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
+                         "site_name and required fields.")
+            return False
+        return True
+
+
+
     def start(self):
         """
         Starts the RedditScraper. Cannot start without updating the praw.ini file with the correct credentials.
         :return:
         """
+        if not self.validate_praw_ini_updated():
+            raise Exception("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
+                            "site_name and required fields. Call validate_praw_ini_updated() to check if the praw.ini "
+                            "file is configured correctly.")
+
         if self._message_bus is None:
             self._message_bus = stock_watch.message_bus.get_instance()
-
         logging.info("Starting RedditScraper")
-        # Validate that the praw.ini has site_name and the required fields
-        if not self.config.validate_site_name(self.site_name) or not self.config.validate_site_fields(self.site_name):
-            logging.info("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
-                         "site_name and required fields.")
-            return
-
         self._reddit_api = reddit_api.RedditAPI(site_name=self.site_name)
         self._running = True
         self._start_retrieval_loop()

@@ -45,10 +45,11 @@ class StockWatch:
         self.data_scraper_service = data_scraper.DataScraperService()
         # Create scrapers
         reddit_scraper = data_scraper.scrapers.reddit_scraper.RedditScraper()
-        # Add scrapers to the scraper service
-        self.data_scraper_service.add_scraper(scraper=reddit_scraper)
-        # Start scraper service
-        self.data_scraper_service.start_scrapers()
+        if reddit_scraper.validate_praw_ini_updated():
+            # Add scrapers to the scraper service
+            self.data_scraper_service.add_scraper(scraper=reddit_scraper)
+            # Start scraper service
+            self.data_scraper_service.start_scrapers()
 
         # Stockbroker
         # TODO: Rework this service to reflect the addition of data_scraping. This
