@@ -5,7 +5,7 @@
 About The Project
 =================
 
-StockWatch is a web scraping analyzer which trades stocks based on public sentiment, or I hope it will be soon.
+**StockWatch** is a web scraping analyzer which trades stocks based on public sentiment, or I hope it will be soon.
 
 **Storage**: A local docker PostgreSQL database. By dockerizing the database, it is easy to spin up
 a new instance for testing purposes, and it is easy to scale the database to handle more storage.
