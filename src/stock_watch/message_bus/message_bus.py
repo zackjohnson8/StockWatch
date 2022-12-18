@@ -35,13 +35,17 @@ class MessageBus(object):
             # parent(self) and child(MessageBusProcess)
             self._parent_conn, self._child_conn = multiprocessing.Pipe(duplex=True)
 
-            # Start the message_handler process of listening to the pipe connection
-            self.message_process = MessageBusProcess(target=self.message_handler.start_listening_to_pipe,
-                                                     args=(self._child_conn,))
-            self.message_process.start()
+            # Create a message_process to be started when ready
+            self.message_process = None
         else:
             raise Exception("Only one instance of the message bus can exist. Call MessageBus.get_instance() to get the "
                             "singleton instance.")
+
+    def start(self):
+        if not self.message_process:
+            self.message_process = MessageBusProcess(target=self.message_handler.start_listening_to_pipe,
+                                                     args=(self._child_conn,))
+            self.message_process.start()
 
     def subscribe(self, subscription: Subscription):
         """
