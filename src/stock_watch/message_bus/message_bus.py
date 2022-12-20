@@ -1,3 +1,4 @@
+import logging
 import multiprocessing
 import dill as pickle
 
@@ -46,6 +47,17 @@ class MessageBus(object):
             self.message_process = MessageBusProcess(target=self.message_handler.start_listening_to_pipe,
                                                      args=(self._child_conn,))
             self.message_process.start()
+
+    def stop(self):
+        """
+        Stop the message bus.
+        :return:
+        """
+        if self.message_process:
+            self.message_process.terminate()
+            self.message_process.join()
+            self.message_process = None
+            logging.info("Stopped MessageBus")
 
     def subscribe(self, subscription: Subscription):
         """

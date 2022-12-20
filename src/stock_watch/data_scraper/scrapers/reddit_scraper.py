@@ -39,8 +39,6 @@ class RedditScraper(Scraper):
             return False
         return True
 
-
-
     def start(self):
         """
         Starts the RedditScraper. Cannot start without updating the praw.ini file with the correct credentials.
@@ -50,7 +48,6 @@ class RedditScraper(Scraper):
             raise Exception("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
                             "site_name and required fields. Call validate_praw_ini_updated() to check if the praw.ini "
                             "file is configured correctly.")
-        logging.info("Starting RedditScraper")
         self._reddit_api = reddit_api.RedditAPI(site_name=self.site_name, custom_config=self.config)
         self._running = True
         self._start_retrieval_loop()

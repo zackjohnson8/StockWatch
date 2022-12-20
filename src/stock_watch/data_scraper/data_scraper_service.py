@@ -34,6 +34,9 @@ class DataScraperService(object):
         # process manager.
         self.process_manager.start_all_processes()
 
+    def stop_scrapers(self):
+        self.process_manager.stop_all_processes()
+
     def has_scraper(self, scraper: Scraper) -> bool:
         """
         Check if a scraper was added to the DataScraperService
@@ -43,5 +46,4 @@ class DataScraperService(object):
         for list_scraper in self.scraper_list:
             if list_scraper == scraper:
                 return True
-
         return False

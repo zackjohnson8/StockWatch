@@ -1,13 +1,13 @@
-import time
-
 from . import helpers
 from . import docker
 from . import data_scraper
 import logging
 import src.stock_watch as stock_watch
+import sys
+from src.stock_watch.gui.main_window import MainWindow
 from src.stock_watch.message_bus.models.channel import Channel
 from src.stock_watch.message_bus.models.subscription import Subscription
-
+from src.stock_watch.gui.application import Application
 
 class StockWatch:
 
@@ -15,6 +15,7 @@ class StockWatch:
         self._message_bus = None
         self.data_scraper_service = None
         self.stockbroker_service = None
+        self.main_window = None
 
     def run(self):
         logging.info('Starting StockWatch')
@@ -51,20 +52,13 @@ class StockWatch:
             # Start scraper service
             self.data_scraper_service.start_scrapers()
 
-        # Stockbroker
-        # TODO: Rework this service to reflect the addition of data_scraping. This
-        #  service will probably only be used for trading and monitoring stocks that are actively being traded.
-        # from stock_watch import STOCKBROKER_CREDENTIALS, DATABASE_CREDENTIALS
-        # self.stockbroker_service = stockbroker.services.StockbrokerService(
-        #     stockbroker_credentials=STOCKBROKER_CREDENTIALS,
-        #     database_credentials=DATABASE_CREDENTIALS
-        # )
-        # stock_watch_process = multiprocessing.Process(target=lambda: self.stockbroker_service.run())
-        # stock_watch_process.start()
-        # logging.info('Started stock watch service')
+        app = Application(sys.argv)
+        self.main_window = MainWindow()
+        app.exec()
 
-        while True:
-            time.sleep(1)
+        # Stop all services
+        self._message_bus.stop()
+        self.data_scraper_service.stop_scrapers()
 
     # noinspection PyMethodMayBeStatic
     def on_research_message(self, message):

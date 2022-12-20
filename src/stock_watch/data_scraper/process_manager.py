@@ -24,6 +24,14 @@ class ProcessManager(object):
         for process in self.processes:
             process.start()
 
+    def stop_all_processes(self):
+        """
+        Stop all the processes in the process manager
+        :return:
+        """
+        for process in self.processes:
+            process.stop()
+
     def start_process(self, process: ScraperProcess):
         """
         Start a specific process in the process manager
