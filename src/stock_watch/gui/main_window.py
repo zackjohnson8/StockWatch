@@ -1,6 +1,8 @@
 from screeninfo import get_monitors
 from PyQt6.QtWidgets import QMainWindow
 
+from src.stock_watch.gui.views.menu_bar import MenuBar
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -8,6 +10,7 @@ class MainWindow(QMainWindow):
 
         self.setup_window_geometry()
         self.setWindowTitle("Stock Watch")
+        self.setMenuBar(MenuBar(self))
         self.show()
 
     def setup_window_geometry(self):
