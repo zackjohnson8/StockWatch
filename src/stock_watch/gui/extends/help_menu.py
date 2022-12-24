@@ -10,6 +10,7 @@ class HelpMenu(QMenu):
         self.about_stock_watch_action = self.addAction("About Stock Watch")
         self.about_stock_watch_action.triggered.connect(self.about_stock_watch)
 
+
     def about_stock_watch(self):
         # Causing error messageInvalid reason code startup for ping background-update and Missing HTTP status
         webbrowser.open("https://github.com/zackjohnson8/StockWatch")

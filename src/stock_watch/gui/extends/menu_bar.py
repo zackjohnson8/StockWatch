@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QMenuBar
 
-from src.stock_watch.gui.views.help_menu import HelpMenu
-from src.stock_watch.gui.views.view_menu import ViewMenu
+from src.stock_watch.gui.extends.help_menu import HelpMenu
+from src.stock_watch.gui.extends.view_menu import ViewMenu
 
 
 class MenuBar(QMenuBar):
