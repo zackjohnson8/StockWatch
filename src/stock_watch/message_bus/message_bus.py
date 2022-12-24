@@ -71,8 +71,12 @@ class MessageBus(object):
         # Save the subscription to the list of subscriptions to reference later
         self._subscriptions.append(subscription)
 
-        pickled = pickle.dumps(subscription)
         # Send the pickled subscription object to the child process (message_handler)
+        # Handle 'pickling an authenticationstring object is disallowed for security reason' error by changing authkey
+        current_process = multiprocessing.current_process()
+        current_process._config['authkey'] = bytes(current_process._config['authkey'])
+
+        pickled = pickle.dumps(subscription)
         self._parent_conn.send(pickled)
 
     def publish(self, publish: Publish):
