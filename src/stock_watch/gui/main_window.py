@@ -9,7 +9,6 @@ from src.stock_watch.gui.views.news_view import NewsView
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
         self.setup_window_geometry()
         self.setWindowTitle("Stock Watch")
         self.setMenuBar(MenuBar(self))
