@@ -1,4 +1,5 @@
-from src.stock_watch.message_bus.models import Publish
+from src.stock_watch.message_bus.models import Publish, Subscription
+import queue
 
 
 class MessageQueue:
@@ -6,26 +7,38 @@ class MessageQueue:
         """
         A queue to store publish messages that are waiting to be sent to subscribers.
         """
-        self._queue = []
+        self._queue = queue.Queue()
 
-    def put(self, publish: Publish) -> None:
+    @property
+    def queue(self) -> queue.Queue:
+        return self._queue
+
+    def add_publish(self, message):
         """
         Add a publish message to the queue.
-        :param publish: The publish to add to the queue.
+        :param publish: The publish message to add to the queue.
         :return:
         """
-        self._queue.append(publish)
+        self._queue.put(message)
 
-    def get(self) -> Publish:
+    def add_subscription(self, subscription: Subscription):
         """
-        Get the next publish message from the queue.
+        Add a subscription to the queue.
+        :param subscription: The subscription to add to the queue.
         :return:
         """
-        return self._queue.pop(0)
+        self._queue.put(subscription)
 
-    def empty(self):
+    def is_empty(self) -> bool:
         """
         Check if the queue is empty.
-        :return:
+        :return: True if the queue is empty, False otherwise.
         """
-        return len(self._queue) == 0
+        return self._queue.empty()
+
+    def get(self):
+        """
+        Pop the first item from the queue.
+        :return: The first item from the queue.
+        """
+        return self._queue.get()

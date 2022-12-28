@@ -21,7 +21,6 @@ class StockWatch:
         logging.info('Starting StockWatch')
         # Start the message bus
         self._message_bus = stock_watch.message_bus.get_instance()
-        self._message_bus.start()
 
         # Subscribe to all message types for testing.
         subscriptions = [Subscription(Channel.RESEARCH, self.on_research_message),
@@ -51,6 +50,8 @@ class StockWatch:
             self.data_scraper_service.add_scraper(scraper=reddit_scraper)
             # Start scraper service
             self.data_scraper_service.start_scrapers()
+
+        self._message_bus.start()
 
         app = Application(sys.argv)
         self.main_window = MainWindow()
