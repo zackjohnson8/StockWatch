@@ -8,8 +8,8 @@ class NewsData:
         self.posted_news = []
 
         self.message_bus = MessageBus.get_instance()
-        news_subscription = Subscription(Channel.RESEARCH, self.on_news)
-        self.message_bus.subscribe(news_subscription)
+        # news_subscription = Subscription(Channel.RESEARCH, self.on_news)
+        # self.message_bus.subscribe(news_subscription)
 
     def on_news(self, message):
         self.posted_news.append(message)

@@ -7,6 +7,7 @@ class MessageConsumer(object):
         """
         A consumer to consume messages from the message queue.
         """
+        self._connections = []
         self._subscriptions = []
         self._message_queue = MessageQueue()
 
@@ -16,9 +17,9 @@ class MessageConsumer(object):
         :return:
         """
         while True:
-            for subscription in self._subscriptions:
-                if subscription.connection.poll():
-                    message = subscription.connection.recv()
+            for publish in self._connections:
+                if publish.poll():
+                    message = publish.recv()
                     self.add_to_queue(message=message)
 
             if not self._message_queue.is_empty():
@@ -31,6 +32,8 @@ class MessageConsumer(object):
     def add_subscription(self, subscription):
         self._subscriptions.append(subscription)
 
+    def add_connection(self, connection):
+        self._connections.append(connection)
 
     def publish_to_subscribers(self, publish: Publish):
         if len(self._subscriptions) > 0:

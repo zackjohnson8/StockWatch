@@ -4,9 +4,9 @@ from __future__ import absolute_import
 from . import view_controllers
 from . import views
 from . import extends
+from . import models
 
 # Files
-from .application import Application
-from .main_window import MainWindow
+from .gui import GUI
 
-__all__ = [Application, MainWindow, view_controllers]
+__all__ = [gui, GUI, view_controllers, views, extends, models]

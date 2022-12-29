@@ -1,8 +1,10 @@
 from __future__ import absolute_import
 
 # Files
-from src.stock_watch.gui.extends.help_menu import HelpMenu
-from src.stock_watch.gui.extends.menu_bar import MenuBar
-from src.stock_watch.gui.extends.view_menu import ViewMenu
+from .application import Application
+from .main_window import MainWindow
+from .help_menu import HelpMenu
+from .menu_bar import MenuBar
+from .view_menu import ViewMenu
 
-__all__ = [HelpMenu, MenuBar, ViewMenu]
+__all__ = [Application, MainWindow, HelpMenu, MenuBar, ViewMenu]

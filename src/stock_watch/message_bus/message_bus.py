@@ -45,3 +45,6 @@ class MessageBus(object):
         :return:
         """
         self.message_consumer.start()
+
+    def add_connection(self, connection):
+        self.message_consumer.add_connection(connection=connection)
