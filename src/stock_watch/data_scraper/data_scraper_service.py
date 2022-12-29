@@ -25,14 +25,25 @@ class DataScraperService(object):
         s_process = ScraperProcess(scraper=scraper)
         self.process_manager.add_process(process=s_process)
 
-    def start_scrapers(self):
+    def start_scrapers(self, conn):
         """
         Start all the scrapers that have been added to the DataScraperService
         :return:
         """
         # Each scraper that was added to this class has a corresponding process created. Start all the processes in the
         # process manager.
-        self.process_manager.start_all_processes()
+        connections = self.process_manager.start_all_processes()
+
+        while True:
+            # Check if the parent process has sent a message to stop the scrapers
+            for connection in connections:
+                if connection.poll():
+                    conn.send(connection.recv())
+
+            if conn.poll():
+                message = conn.recv()
+                if message == 'stop':
+                    break
 
     def stop_scrapers(self):
         self.process_manager.stop_all_processes()

@@ -1,3 +1,5 @@
+import multiprocessing
+
 from . import helpers
 from . import docker
 from . import data_scraper
@@ -22,14 +24,6 @@ class StockWatch:
         # Start the message bus
         self._message_bus = stock_watch.message_bus.get_instance()
 
-        # Subscribe to all message types for testing.
-        subscriptions = [Subscription(Channel.RESEARCH, self.on_research_message),
-                         Subscription(Channel.TRADING, self.on_trading_message),
-                         Subscription(Channel.ANALYSIS, self.on_analysis_message),
-                         Subscription(Channel.DATABASE, self.on_database_message)]
-        for subscription in subscriptions:
-            self._message_bus.subscribe(subscription)
-
         # Docker
         docker_directory = helpers.find_file('docker-compose-database.yml', './')
         docker_compose_command = docker.models.DockerComposeCommand(
@@ -49,8 +43,13 @@ class StockWatch:
             # Add scrapers to the scraper service
             self.data_scraper_service.add_scraper(scraper=reddit_scraper)
             # Start scraper service
-            self.data_scraper_service.start_scrapers()
+            scaper_parent_conn, child_conn = multiprocessing.Pipe(duplex=True)
+            data_scraper_process = multiprocessing.Process(target=self.data_scraper_service.start_scrapers,
+                                                           args=(child_conn,))
+            data_scraper_process.start()
 
+        # Subscribe to receive messages from the message bus
+        # Add subscriptions to the message bus here then start the message bus
         self._message_bus.start()
 
         app = Application(sys.argv)
@@ -60,22 +59,3 @@ class StockWatch:
         # Stop all services
         self._message_bus.stop()
         self.data_scraper_service.stop_scrapers()
-
-    # noinspection PyMethodMayBeStatic
-    def on_research_message(self, message):
-        logging.info('Received research message: {author} posted {title} from {url}'.format(
-            author=message.data_model['name'],
-            title=message.data_model['title'],
-            url=message.data_model['url']))
-
-    # noinspection PyMethodMayBeStatic
-    def on_analysis_message(self, message):
-        logging.info('Received analysis message: {}'.format(message))
-
-    # noinspection PyMethodMayBeStatic
-    def on_trading_message(self, message):
-        logging.info('Received trading message: {}'.format(message))
-
-    # noinspection PyMethodMayBeStatic
-    def on_database_message(self, message):
-        logging.info('Received database message: {}'.format(message))

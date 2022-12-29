@@ -16,6 +16,11 @@ class MessageConsumer(object):
         :return:
         """
         while True:
+            for subscription in self._subscriptions:
+                if subscription.connection.poll():
+                    message = subscription.connection.recv()
+                    self.add_to_queue(message=message)
+
             if not self._message_queue.is_empty():
                 message = self._message_queue.get()
                 if isinstance(message, Publish):
@@ -26,11 +31,12 @@ class MessageConsumer(object):
     def add_subscription(self, subscription):
         self._subscriptions.append(subscription)
 
+
     def publish_to_subscribers(self, publish: Publish):
         if len(self._subscriptions) > 0:
             for subscription in self._subscriptions:
                 if subscription.channel == publish.channel:
-                    subscription.callback(publish.message)
+                    subscription.connection.send(publish)
 
     def add_to_queue(self, message):
         self._message_queue.add_publish(message=message)

@@ -23,14 +23,12 @@ class MessageBus(object):
         """
         if MessageBus.__instance is None:
             MessageBus.__instance = self
-            self.subscribers = []
             self.message_consumer = MessageConsumer()
         else:
             raise Exception("Only one instance of the message bus can exist. Call MessageBus.get_instance() to get the "
                             "singleton instance.")
 
     def subscribe(self, subscription: Subscription):
-        self.subscribers.append(subscription)
         self.message_consumer.add_subscription(subscription=subscription)
 
     def publish(self, publish: Publish):
