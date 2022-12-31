@@ -52,8 +52,8 @@ class StockWatch:
 
 
         self.gui = GUI()
-        self.gui.show()
+        gui_process = multiprocessing.Process(target=self.gui.show, args=())
+        gui_process.start()
 
         # Add subscriptions to the message bus here then start the message bus
-        self._message_bus.subscribe(Subscription(channel=Channel.RESEARCH, connection=gui_parent_conn))
         self._message_bus.start()
