@@ -23,7 +23,6 @@ class RedditAPI(praw.Reddit):
 
         custom_config.copy_praw_ini_file_to_platform_folder()
 
-
         super().__init__(site_name=site_name,
                          config_interpolation=config_interpolation,
                          requestor_class=requestor_class,

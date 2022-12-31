@@ -23,9 +23,8 @@ class RedditScraper(Scraper):
             self.config = config
         self._running = False
         self._reddit_api = None
-        self._message_bus = stock_watch.message_bus.get_instance()
+        self._message_bus = None
         self.site_name = "stock_watch_bot"
-
 
     def validate_praw_ini_updated(self) -> bool:
         """
@@ -39,21 +38,17 @@ class RedditScraper(Scraper):
             return False
         return True
 
-
-
-    def start(self):
+    def start(self, conn):
         """
         Starts the RedditScraper. Cannot start without updating the praw.ini file with the correct credentials.
         :return:
-        """
+        # """
         if not self.validate_praw_ini_updated():
             raise Exception("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
                             "site_name and required fields. Call validate_praw_ini_updated() to check if the praw.ini "
                             "file is configured correctly.")
-        logging.info("Starting RedditScraper")
         self._reddit_api = reddit_api.RedditAPI(site_name=self.site_name, custom_config=self.config)
-        self._running = True
-        self._start_retrieval_loop()
+        self._start_retrieval_loop(conn)
 
     def stop(self):
         """
@@ -62,16 +57,22 @@ class RedditScraper(Scraper):
         """
         self._running = False
 
-    def _start_retrieval_loop(self):
+    def _start_retrieval_loop(self, conn):
         """
         Starts the retrieval loop for the RedditScraper.
         :return:
         """
         logging.info("Starting the retrieval loop for the RedditScraper...")
+        self._message_bus = stock_watch.message_bus.get_instance()
         self._running = True
         posts_retrieved_list = []
         while self._running:
             sleep(5)
+            # Check conn for messages
+            if conn.poll():
+                logging.info("Received message")  # template code for now
+
+            # Check Reddit for new posts
             followed_subreddits = self._get_followed_subreddit_list()
             for subreddit in followed_subreddits:
                 new_submissions = subreddit.new(limit=10)
@@ -82,7 +83,8 @@ class RedditScraper(Scraper):
                             header="reddit_submission",
                             data_model=reddit_post_data.to_dict()
                         )
-                        self._message_bus.publish(Publish(channel=Channel.RESEARCH, message=message))
+                        publish = Publish(channel=Channel.RESEARCH, message=message)
+                        conn.send(publish)
                         posts_retrieved_list.append(submission.name)
             # Remove any old posts from the posts_retrieved_list after 1000
             while len(posts_retrieved_list) > 1000:

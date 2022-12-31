@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Scraper(ABC):
     @abstractmethod
-    def start(self):
+    def start(self, conn):
         ...
 
     @abstractmethod
