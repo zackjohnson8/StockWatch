@@ -21,9 +21,9 @@ class DataScraperService(object):
         """
         # Add scraper to the scraper list
         self.scraper_list.append(scraper)
+
         # Each scraper will have a process associated with it and added to the process manager
-        s_process = ScraperProcess(scraper=scraper)
-        self.process_manager.add_process(process=s_process)
+        self.process_manager.add_process(process=ScraperProcess(scraper=scraper))
 
     def start_scrapers(self, conn):
         """

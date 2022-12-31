@@ -5,10 +5,8 @@ from . import docker
 from . import data_scraper
 import logging
 import src.stock_watch as stock_watch
-import sys
 from src.stock_watch.gui.gui import GUI
-from src.stock_watch.message_bus.models.channel import Channel
-from src.stock_watch.message_bus.models.subscription import Subscription
+
 
 class StockWatch:
 
@@ -42,17 +40,18 @@ class StockWatch:
         if reddit_scraper.validate_praw_ini_updated():
             # Add scrapers to the scraper service
             self.data_scraper_service.add_scraper(scraper=reddit_scraper)
-            # Start scraper service
+
+            # Setup pipe connection between main process and data scraper
             scaper_parent_conn, child_conn = multiprocessing.Pipe(duplex=True)
             self._message_bus.add_connection(connection=scaper_parent_conn)
-            # self._message_bus.subscribe(Subscription(channel=Channel.RESEARCH, connection=scaper_parent_conn))
+
+            # Start data scraper process
             data_scraper_process = multiprocessing.Process(target=self.data_scraper_service.start_scrapers,
                                                            args=(child_conn,))
             data_scraper_process.start()
 
-
         self.gui = GUI()
-        gui_process = multiprocessing.Process(target=self.gui.show, args=())
+        gui_process = multiprocessing.Process(target=self.gui.show)
         gui_process.start()
 
         # Add subscriptions to the message bus here then start the message bus

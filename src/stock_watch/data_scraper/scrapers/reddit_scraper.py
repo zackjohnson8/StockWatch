@@ -23,9 +23,8 @@ class RedditScraper(Scraper):
             self.config = config
         self._running = False
         self._reddit_api = None
-        self._message_bus = stock_watch.message_bus.get_instance()
+        self._message_bus = None
         self.site_name = "stock_watch_bot"
-
 
     def validate_praw_ini_updated(self) -> bool:
         """
@@ -43,7 +42,7 @@ class RedditScraper(Scraper):
         """
         Starts the RedditScraper. Cannot start without updating the praw.ini file with the correct credentials.
         :return:
-        """
+        # """
         if not self.validate_praw_ini_updated():
             raise Exception("The praw.ini file is not configured correctly. Please update the praw.ini file with valid "
                             "site_name and required fields. Call validate_praw_ini_updated() to check if the praw.ini "
@@ -64,13 +63,14 @@ class RedditScraper(Scraper):
         :return:
         """
         logging.info("Starting the retrieval loop for the RedditScraper...")
+        self._message_bus = stock_watch.message_bus.get_instance()
         self._running = True
         posts_retrieved_list = []
         while self._running:
             sleep(5)
             # Check conn for messages
             if conn.poll():
-                logging.info("Received message") # template code for now
+                logging.info("Received message")  # template code for now
 
             # Check Reddit for new posts
             followed_subreddits = self._get_followed_subreddit_list()
