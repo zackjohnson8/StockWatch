@@ -8,17 +8,7 @@ class MainWindowController(object):
         self.app = None
         self.main_window = None
 
-    def run_window(self):
+    def show(self):
         self.app = Application(sys.argv)
         self.main_window = MainWindow()
         self.app.exec()
-
-    def start(self, conn):
-
-        process = multiprocessing.Process(target=self.run_window)
-        process.start()
-
-        while True:
-            if conn.poll():
-                message = conn.recv()
-                pass
