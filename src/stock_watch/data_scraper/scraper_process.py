@@ -1,7 +1,6 @@
 from .scrapers.scraper import Scraper
 import multiprocessing
 import logging
-from multiprocessing.connection import Connection
 
 
 class ScraperProcess(object):
@@ -17,7 +16,7 @@ class ScraperProcess(object):
         self._running = False
         self._process = None
 
-    def start(self) -> Connection:
+    def start(self) -> multiprocessing.connection.Connection:
         """
         Start the scraper in a separate process
         :return:
@@ -29,7 +28,6 @@ class ScraperProcess(object):
         logging.info(f"Started {self._scraper.__class__.__name__}")
 
         return self.parent_conn
-
 
     def stop(self):
         """

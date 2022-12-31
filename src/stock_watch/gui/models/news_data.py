@@ -1,6 +1,6 @@
 import logging
+
 from src.stock_watch.message_bus.message_bus import MessageBus
-from src.stock_watch.message_bus.models import Subscription, Channel
 
 
 class NewsData:

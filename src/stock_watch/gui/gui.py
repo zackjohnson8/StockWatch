@@ -1,5 +1,5 @@
-import multiprocessing
 from .view_controllers.main_window_controller import MainWindowController
+
 
 class GUI(object):
     def __init__(self):

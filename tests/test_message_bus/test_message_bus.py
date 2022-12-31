@@ -59,7 +59,7 @@ def test_CreateMessageWithValidInformation_IsSuccessful():
     assert message.data_model == json_dict
 
 
-#noinspection PyTypeChecker
+# noinspection PyTypeChecker
 def test_CreateMessageWithInvalidInformation_ExceptionIsRaised():
     # Test that an exception is raised when creating the message with invalid information
     with pytest.raises(Exception):
@@ -70,6 +70,7 @@ def test_CreateMessageWithInvalidInformation_ExceptionIsRaised():
 
     with pytest.raises(Exception):
         Message(header=123, data_model={'test': 'test'})
+
 
 def test_CreatePublishWithValidInformation_IsSuccessful():
     # Create a message
@@ -83,7 +84,7 @@ def test_CreatePublishWithValidInformation_IsSuccessful():
     assert publish.message == message
 
 
-#noinspection PyTypeChecker
+# noinspection PyTypeChecker
 def test_CreatePublishWithInvalidInformation_ExceptionIsRaised():
     # Test that an exception is raised when creating the publish with invalid information
     with pytest.raises(Exception):
@@ -94,7 +95,6 @@ def test_CreatePublishWithInvalidInformation_ExceptionIsRaised():
 
     with pytest.raises(Exception):
         Publish(channel='not a channel', message=Message(header='reddit_submission', data_model={'test': 'test'}))
-
 
 # TODO: When multiprocess attempts to call the callback, it fails. This is because the callback is a function that is
 #  defined in the test file. The callback is not defined in the multiprocess file. This is a known issue with

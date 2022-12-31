@@ -15,10 +15,10 @@ class RedditSubmission(praw.reddit.models.Submission):
 
     def to_dict(self):
         return {
-            #'author': self.author, # Redditor
+            # 'author': self.author, # Redditor
             'author_flair_text': self.author_flair_text,
             'clicked': self.clicked,
-            #'comments': self.comments, # CommentForest
+            # 'comments': self.comments, # CommentForest
             'created_utc': self.created_utc,
             'distinguished': self.distinguished,
             'edited': self.edited,
@@ -35,7 +35,7 @@ class RedditSubmission(praw.reddit.models.Submission):
             'score': self.score,
             'selftext': self.selftext,
             'spoil': self.spoiler,
-            #'subreddit': self.subreddit, # Subreddit
+            # 'subreddit': self.subreddit, # Subreddit
             'title': self.title,
             'upvote_ratio': self.upvote_ratio,
             'url': self.url,

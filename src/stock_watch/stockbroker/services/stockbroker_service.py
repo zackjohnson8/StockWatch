@@ -92,7 +92,8 @@ class StockbrokerService:
 
         time.sleep(.7)
 
-    def add_price_history_candle_to_database(self, symbol: str, period: int, period_type: str, frequency_type: str, frequency: int):
+    def add_price_history_candle_to_database(self, symbol: str, period: int, period_type: str, frequency_type: str,
+                                             frequency: int):
         price = asyncio.run(price_history.get_price_history(
             oauth=self.oauth,
             params={'period': period,

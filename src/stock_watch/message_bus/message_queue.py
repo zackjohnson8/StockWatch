@@ -16,7 +16,7 @@ class MessageQueue:
     def add_publish(self, message):
         """
         Add a publish message to the queue.
-        :param publish: The publish message to add to the queue.
+        :param message: The publish message to add to the queue.
         :return:
         """
         self._queue.put(message)

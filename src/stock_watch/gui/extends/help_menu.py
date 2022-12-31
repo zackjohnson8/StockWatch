@@ -14,4 +14,3 @@ class HelpMenu(QMenu):
     def about_stock_watch(self):
         # Causing error messageInvalid reason code startup for ping background-update and Missing HTTP status
         webbrowser.open("https://github.com/zackjohnson8/StockWatch")
-
