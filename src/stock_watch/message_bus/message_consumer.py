@@ -1,5 +1,6 @@
 from src.stock_watch.message_bus.message_queue import MessageQueue
 from src.stock_watch.message_bus.models import Publish
+import logging
 
 
 class MessageConsumer(object):
@@ -36,6 +37,9 @@ class MessageConsumer(object):
         self._connections.append(connection)
 
     def publish_to_subscribers(self, publish: Publish):
+        if publish.message.header == "reddit_submission":
+            logging.info("Publishing message to subscribers: {} {}".format(publish.message.data_model['permalink'], publish.message.data_model['title']))
+
         if len(self._subscriptions) > 0:
             for subscription in self._subscriptions:
                 if subscription.channel == publish.channel:
