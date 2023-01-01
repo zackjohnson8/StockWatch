@@ -7,7 +7,6 @@ import logging
 import src.stock_watch as stock_watch
 from src.stock_watch.gui.gui import GUI
 
-
 class StockWatch:
 
     def __init__(self):
@@ -42,8 +41,8 @@ class StockWatch:
             self.data_scraper_service.add_scraper(scraper=reddit_scraper)
 
             # Setup pipe connection between main process and data scraper
-            scaper_parent_conn, child_conn = multiprocessing.Pipe(duplex=True)
-            self._message_bus.add_connection(connection=scaper_parent_conn)
+            scraper_parent_conn, child_conn = multiprocessing.Pipe(duplex=True)
+            self._message_bus.add_connection(connection=scraper_parent_conn)
 
             # Start data scraper process
             data_scraper_process = multiprocessing.Process(target=self.data_scraper_service.start_scrapers,
