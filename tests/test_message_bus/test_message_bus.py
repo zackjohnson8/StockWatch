@@ -1,4 +1,6 @@
 import json
+import multiprocessing
+
 import pytest
 
 from src.stock_watch.message_bus import MessageBus
@@ -30,8 +32,10 @@ def test_WhenValidSubscriptionAdded_SubscriptionsUpdated():
     # Create a message bus
     message_bus = MessageBus.get_instance()
 
+    parent_pipe, test_pipe = multiprocessing.Pipe()
+
     # Create a subscription
-    subscription = Subscription(channel=Channel.RESEARCH, callback=print)
+    subscription = Subscription(channel=Channel.RESEARCH, pipe_connection=test_pipe)
 
     # Add the subscription
     message_bus.subscribe(subscription)

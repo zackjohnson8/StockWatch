@@ -47,3 +47,6 @@ class MessageConsumer(object):
 
     def add_to_queue(self, message):
         self._message_queue.add_publish(message=message)
+
+    def has_subscription(self, subscription):
+        return subscription in self._subscriptions
