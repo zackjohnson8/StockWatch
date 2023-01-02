@@ -4,12 +4,12 @@ from .channel import Channel
 
 class Subscription:
 
-    def __init__(self, channel: Channel, pipe_connection: connection.Connection):
+    def __init__(self, channel: Channel, pipe_connection: connection.PipeConnection):
         """
         Create a subscription to a channel.
         :param channel: The channel to subscribe to.
         """
-        if not isinstance(channel, Channel) or not isinstance(pipe_connection, connection.Connection):
+        if not isinstance(channel, Channel) or not isinstance(pipe_connection, connection.PipeConnection):
             raise Exception("The subscription must have a channel and a callback.")
 
         self.channel = channel
