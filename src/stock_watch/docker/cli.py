@@ -7,6 +7,7 @@ T = TypeVar('T',
             docker_compose_command.DockerComposeCommand,
             docker_command.DockerCommand)
 
+
 class CLI(object):
     def __init__(self):
         self.command_history: List[str] = []

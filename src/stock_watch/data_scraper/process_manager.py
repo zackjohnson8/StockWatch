@@ -16,13 +16,25 @@ class ProcessManager(object):
         """
         self.processes.append(process)
 
-    def start_all_processes(self):
+    def start_all_processes(self) -> list:
         """
         Start all the processes in the process manager
         :return:
         """
+        connections = []
+
         for process in self.processes:
-            process.start()
+            connections.append(process.start())
+
+        return connections
+
+    def stop_all_processes(self):
+        """
+        Stop all the processes in the process manager
+        :return:
+        """
+        for process in self.processes:
+            process.stop()
 
     def start_process(self, process: ScraperProcess):
         """
