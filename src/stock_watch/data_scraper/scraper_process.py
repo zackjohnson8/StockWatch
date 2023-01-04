@@ -16,7 +16,7 @@ class ScraperProcess(object):
         self._running = False
         self._process = None
 
-    def start(self) -> multiprocessing.connection.PipeConnection:
+    def start(self) -> multiprocessing.connection.Connection:
         """
         Start the scraper in a separate process
         :return:

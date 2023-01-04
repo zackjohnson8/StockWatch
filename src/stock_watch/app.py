@@ -1,6 +1,6 @@
 import multiprocessing
 
-from . import helpers
+from . import helpers, flaskr
 from . import docker
 from . import data_scraper
 import logging
@@ -52,6 +52,10 @@ class StockWatch:
         self.gui = GUI()
         gui_process = multiprocessing.Process(target=self.gui.show)
         gui_process.start()
+
+        # Flask
+        p = multiprocessing.Process(target=lambda: flaskr.run())
+        p.start()
 
         # Add subscriptions to the message bus here then start the message bus
         self._message_bus.start()
