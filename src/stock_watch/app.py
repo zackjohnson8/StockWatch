@@ -54,7 +54,7 @@ class StockWatch:
         gui_process.start()
 
         # Flask
-        p = multiprocessing.Process(target=lambda: flaskr.run())
+        p = multiprocessing.Process(target=flaskr.run())
         p.start()
 
         # Add subscriptions to the message bus here then start the message bus
